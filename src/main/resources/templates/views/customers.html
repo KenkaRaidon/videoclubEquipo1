@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+    lang="es-MX">
+<div th:replace="layout/header :: estilos"></div>
+
+<body>
+    <div th:replace="layout/header :: header"></div>
+    <div class="d-flex" id="wrapper">
+        <div th:replace="layout/header :: menu"></div>
+        <div id="page-content-wrapper" style="width:100%;">
+            <!-- Page content-->
+            <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
+                <a class="btn btn-info" th:href="@{/registercustomer}" >Registrar Cliente</a><br><br>
+                <table class="table table-hover" id="tabla">
+                    <thead>
+                        <tr style="background-color: #239B56;">
+                            <th class="text-white" scope="col">Id</th>
+                            <th class="text-white" scope="col">Nombre</th>
+                            <th class="text-white" scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="customer : ${customers}">
+                            <td scope="row" th:text="${customer.customer_id}"></td>
+                            <td th:text="${customer.name}"></td>
+                            <td th:text="${customer.email}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div th:replace="layout/header :: footer"></div>
+    <div th:replace="layout/header :: scripts"></div>
+    <script th:src="@{assets/js/customers.js}"></script>
+</body>
+
+</html>

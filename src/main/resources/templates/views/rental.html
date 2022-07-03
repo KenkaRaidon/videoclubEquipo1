@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <div th:replace="layout/header :: estilos"></div>
+    <meta charset="ISO-8859-1">
+    <title>Rental</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div th:replace="layout/header :: header"></div>
+    <div class="d-flex" id="wrapper">
+        <div th:replace="layout/header :: menu"></div>
+        <div id="page-content-wrapper" style="width:100%;">
+            <!-- Page content-->
+            <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
+                <a class="btn btn-info" th:href="@{/rentalregister}">Registar renta</a><br><br>
+                <button class="btn btn-success" onClick="location.href = '/return'"> Devolucion</button>
+                <table class="table table-hover" id="tabla">
+                    <thead>
+                        <tr style="background-color: #239B56;">
+                            <th class="text-white" scope="col">Id</th>
+                            <th class="text-white" scope="col">Fecha de renta</th>
+                            <th class="text-white" scope="col">ID Inventario</th>
+                            <th class="text-white" scope="col">ID Cliente</th>
+                            <th class="text-white" scope="col">Fecha de regreso</th>
+                            <th class="text-white" scope="col">ID Empleado</th>
+                            <th class="text-white" scope="col">Ultima actualizacion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="rental : ${rentals}">
+                            <td scope="row" th:text="${rental.rentalId}"></td>
+                            <td th:text="${rental.rentalDate}"></td>
+                            <td th:text="${rental.inventoryId}"></td>
+                            <td th:text="${rental.customerId}"></td>
+                            <td th:text="${rental.returnDate}"></td>
+                            <td th:text="${rental.staffId}"></td>
+                            <td th:text="${rental.lastUpdate}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div th:replace="layout/header :: footer"></div>
+    <div th:replace="layout/header :: scripts"></div>
+    <script th:src="@{assets/js/rental.js}"></script>
+</body>
+
+</html>

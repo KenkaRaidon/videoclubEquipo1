@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es-MX">
+<head>
+<link th:href="@{assets/css/bootstrap.min.css}" rel="stylesheet">
+<link th:href="@{assets/css/custom.css}" rel="stylesheet" />
+<link th:href="@{assets/css/all.css}" rel="stylesheet" />
+<link rel="stylesheet"  type="text/css" th:href="@{/assets/css/login.css}">
+</head>
+
+<body>
+	<form th:action="@{/login}" method="POST" class="Form">
+		<div class="login">
+			<div class="login-screen">
+				<div class="app-title">
+					<h1>Login</h1>
+					<p class="text-danger" th:if="${error} != null" th:text="${error}"></p>
+				</div>
+	
+				<div class="login-form">
+					<div class="control-group">
+					<input type="text" id="username" name="username" class="login-field" value="" placeholder="username">
+					<label class="login-field-icon fui-user" for="login-name"></label>
+					</div>
+	
+					<div class="control-group">
+					<input type="password" id="password" name="password" class="login-field" value="" placeholder="password">
+					<label class="login-field-icon fui-lock" for="login-pass"></label>
+					</div>
+	
+					<button type="submit" class="btn btn-primary btn-large btn-block">login</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

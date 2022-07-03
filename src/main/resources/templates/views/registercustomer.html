@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+    lang="es-MX">
+<div th:replace="layout/header :: estilos"></div>
+
+<body>
+    <div th:replace="layout/header :: header"></div>
+    <div class="d-flex" id="wrapper">
+        <div th:replace="layout/header :: menu"></div>
+        <div id="page-content-wrapper" style="width:100%;">
+            <!-- Page content-->
+            <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
+                <h1>Registrar cliente</h1>
+                <form id="formCreateCustomer" th:action="@{/createCustomer}" method="POST">
+                    <div class="modal-body">
+                        <label for="inputFirstName">Nombre</label>
+                        <input id="inputFirstName" name="inputFirstName" type="text" placeholder="Escribe el nombre"
+                            class="form-control" /> <br>
+                        <label for="inputLastName">Apellido</label>
+                        <input id="inputLastName" name="inputLastName" type="text" placeholder="Escribe el apellido"
+                            class="form-control" /> <br>
+                        <label for="inputEmail">Email</label>
+                        <input id="inputEmail" name="inputEmail" type="email" placeholder="Escribe el email"
+                            class="form-control" /> <br>
+                        <label for="inputAddress">Direccion</label>
+                        <input id="inputAddress" name="inputAddress" type="text" placeholder="Escriba su direccion"
+                            class="form-control" /> <br>
+                        <label for="inputDistrict">Distrito</label>
+                        <input id="inputDistrict" name="inputDistrict" type="text" placeholder="Escriba el distrito"
+                            class="form-control" /> <br>
+                        <label for="selectCountry">Pais</label>
+                        <select id="selectCountry" name="selectCountry" class="form-control"
+                            th:onchange="'javascript:filtrarCiudad();'">
+                            <option value="-1">Selecciona una opción</option>
+                            <option th:each="country : ${countries}" th:value="${country.countryId}"
+                                th:text="${country.country}"></option>
+                        </select><br>
+                        <label for="selectCity">Ciudad</label>
+                        <select id="selectCity" name="selectCity" class="form-control">
+                            <option value="-1" selected>Selecciona una opción</option>
+                            <option th:each="city : ${cities}" th:value="${city.cityId}" th:text="${city.city}">
+                            </option>
+                        </select><br>
+                        <label for="inputPhone">Telefono</label>
+                        <input id="inputPhone" name="inputPhone" type="text" placeholder="Escriba su telefono"
+                            class="form-control" /> <br>
+                        <label for="selectStore">Sucursal</label>
+                        <select id="selectStore" name="selectStore" class="form-control">
+                            <option value="-1">Selecciona una opción</option>
+                            <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                th:text="${categoria.name}"></option>
+                        </select><br>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="botonCerrar2" type="button" class="btn btn-secondary"
+                            data-dismiss="modal">Cancelar</button>
+                        <button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div th:replace="layout/header :: footer"></div>
+    <div th:replace="layout/header :: scripts"></div>
+    <script th:src="@{assets/js/customers.js}"></script>
+</body>
+
+</html>

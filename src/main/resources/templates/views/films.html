@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="es-MX">
+<div th:replace="layout/header :: estilos"></div>
+
+<body>
+	<div th:replace="layout/header :: header"></div>
+	<div class="d-flex" id="wrapper">
+		<div th:replace="layout/header :: menu"></div>
+		<div id="page-content-wrapper" style="width:100%;">
+			<!-- Page content-->
+			<div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
+
+				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroTitulo"
+					onclick="titulo()">Filtrar por título</button>
+				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroCategoria">Filtrar por
+					categoría</button>
+				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroTitulo"
+					onclick="actor()">Filtrar por actor</button>
+				<br><br>
+				<table class="table table-hover" id="tabla">
+					<thead>
+						<tr style="background-color: #239B56;">
+							<th class="text-white" scope="col">Película</th>
+							<th class="text-white" scope="col">Categoría</th>
+							<th class="text-white" scope="col">Copias disponibles</th>
+							<th class="text-white" scope="col">Acciones</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="pelicula : ${catalogo}">
+							<td scope="row" th:text="${pelicula.title}"></td>
+							<td th:text="${pelicula.category}"></td>
+							<td th:text="${pelicula.copies}"></td>
+							<td><button class="btn btn-info"
+									th:onclick="'javascript:detalles(\''+ ${pelicula.film_id} +'\');'"><i
+										class="bi bi-eye"></i></button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Modal filtro titulo -->
+		<div class="modal fade " id="modalFiltroTitulo" tabindex="-1" aria-labelledby="modalFiltroTitulo"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="tituloModalCambiar">Filtrar por título</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form id="formCambiar" th:action="@{/filtroTitulo}" method="POST">
+						<div class="modal-body">
+							<input id="inputCambiar" name="inputCambiar" type="text" placeholder="Escribe el nombre"
+								class="form-control" />
+						</div>
+						<div class="modal-footer">
+							<button id="botonCerrar2" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cancelar</button>
+							<button id="botonGuardar2" type="submit" class="btn btn-primary">Buscar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!-- Modal multas -->
+		<div class="modal fade" id="modalMultas" tabindex="-1" aria-labelledby="modalMultas" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-header">
+					<h5 class="modal-title" id="tituloModalMultas">Multas</h5>
+					<button type="button" class = "close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form id = "formMultas" th:action="@{/multas}" method="POST">
+									<div class="modal-body">
+							<input id="inputCambiar" name="inputCambiar" type="text" placeholder="Escribe el nombre"
+								class="form-control" />
+						</div>
+						<div class="modal-footer">
+							<button id="botonCerrar2" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cancelar</button>
+							<button id="botonGuardar2" type="submit" class="btn btn-primary">Buscar</button>
+						</div>
+				</form>
+			</div>
+		</div>
+		<!-- Modal filtro categoria -->
+		<div class="modal fade " id="modalFiltroCategoria" tabindex="-1" aria-labelledby="modalFiltroCategoria"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="tituloModalCategoria">Filtrar por categoría</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form id="formCategoria" th:action="@{/filtroCategoria}" method="POST">
+						<div class="modal-body">
+							<select id="selectCategoria" name="selectCategoria" class="form-control">
+								<option value="-1">Selecciona una opción</option>
+								<option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+									th:text="${categoria.name}"></option>
+							</select>
+							<label id="errorCategoria" class="text-danger"></label>
+						</div>
+						<div class="modal-footer">
+							<button id="botonCerrar2" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cancelar</button>
+							<button id="botonGuardar2" type="button" onclick="categoria()"
+								class="btn btn-primary">Buscar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal detalles -->
+		<div class="modal fade " id="modalDetalles" tabindex="-1" aria-labelledby="modalDetalles" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="tituloModalDetalles">Detalles</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="shadow-lg p-3 mb-5 bg-body rounded">
+							<table class="table table-hover">
+								<tbody>
+									<tr>
+										<td style="width: 30%;">
+											<p class="fw-bold">Título:</p>
+										</td>
+										<td>
+											<h6 id="detalleTitulo" class="">ACADEMY DINOSAUR</h6>
+										</td>
+									</tr>
+									<tr>
+										<td style="width: 30%;">
+											<p class="fw-bold">ID:</p>
+										</td>
+										<td>
+											<p id="detalleNumPelicula" class="">1</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Precio de renta:</p>
+										</td>
+										<td><b>
+												<p id="detallePrecio" class="">$12</p>
+											</b></td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Lanzamiento:</p>
+										</td>
+										<td>
+											<p id="detalleLanzamiento" class="">2026</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Duración:</p>
+										</td>
+										<td>
+											<p id="detalleDuracion" class="">117 min</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Categoria:</p>
+										</td>
+										<td>
+											<p id="detalleCategorias" class="">Documentary</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Lenguaje:</p>
+										</td>
+										<td>
+											<p id="detalleLenguaje" class="">2026</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Clasificación:</p>
+										</td>
+										<td>
+											<p id="detalleClasificacion" class="">G</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Descripción:</p>
+										</td>
+										<td>
+											<p id="detalleDescripcion" class="">A Epic Drama of a Feminist And a Mad
+												Scientist who must Battle a Teacher in The Canadian Rockies</p>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<p class="fw-bold">Actores:</p>
+										</td>
+										<td>
+											<ul id="detalleActores" class="list-group list-group-numbered">
+												<li>PENELOPE GUINESS</li>
+												<li>NICK WAHLBERG</li>
+												<li>ED CHASE</li>
+											</ul>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="botonExportarPDF" type="button" class="btn btn-outline-danger"><i
+								class="bi bi-file-earmark-pdf-fill">Exportar</i></button>
+						<button id="botonCerrar3" type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div th:replace="layout/header :: footer"></div>
+	<div th:replace="layout/header :: scripts"></div>
+	<script th:src="@{assets/js/films.js}"></script>
+</body>
+
+</html>
