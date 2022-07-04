@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uabc.videoclubs.entities.City;
@@ -43,38 +44,34 @@ public class CustomerController {
     @RequestMapping(value = {"/customers","customers"})
     public String listarCustomers(Model model, HttpServletRequest request, HttpServletResponse response, Principal principal){
         List<CustomerIndex> customers;
-        List<Country> countries=countryService.findAll();
+        List<Country> countries=countryService.findAll();;
 
         if(model.getAttribute("customers")==null){
             customers=customerService.getCustomers();
         }else{
             customers=(List<CustomerIndex>) model.getAttribute("customers");
         }
+        
         model.addAttribute("customer", new Customer());
         model.addAttribute("countries", countries);
         model.addAttribute("customers", customers);
         return "views/customers";
     }
 
-    @RequestMapping(value = "createCustomer" , method = RequestMethod.POST)
-	public String registro(Model model, @RequestParam(name = "selectCountry") Integer country, RedirectAttributes redirectAtt) {
-		return "redirect:/";
+    @RequestMapping(value = "registerCustomer" , method = RequestMethod.GET)
+	public String registro(Model model, @RequestParam(name = "selectCountry") Integer country,  @RequestParam(name = "selectCity") Integer cities, RedirectAttributes redirectAtt) {
+		System.out.println("Hola");
+        return "redirect:/";
 	}
 
     @GetMapping("filtroCiudad/{countryId}")
-	public String filtroCiudad(@PathVariable Integer countryId) {
-        System.out.println(countryId);
-        List<City> cities=cityService.findCityByCountryId(countryId);
-		System.out.println(cities);
-		return "redirect:/";
+    @ResponseBody
+	public List<City> filtroCiudad(@PathVariable Integer countryId) {
+		return cityService.findCityByCountryId(countryId);
 	}
-
-    @RequestMapping(value = {"/registercustomer","registercustomer"})
-    public String registerCustomer(Model model, HttpServletRequest request, HttpServletResponse response, Principal principal){
-        return "views/registercustomer";
-    }
-    /*@PostMapping("/createCustomer")
-	public String registroGuardar(@Valid Customer customer, BindingResult result, Model model) {
+    
+    @PostMapping("/registerCustomer")
+	public String registerCustomer(@Valid Customer customer, BindingResult result, Model model) {
 		
 		if(result.hasErrors()) {
 			System.out.println("hubo un error en el formulario");
@@ -85,6 +82,6 @@ public class CustomerController {
 		customerService.save(customer);
 		
 		return "redirect:/";
-	}*/
+	}
     
 }

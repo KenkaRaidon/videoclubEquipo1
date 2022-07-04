@@ -10,7 +10,8 @@
         <div id="page-content-wrapper" style="width:100%;">
             <!-- Page content-->
             <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
-                <a class="btn btn-info" th:href="@{/registercustomer}" >Registrar Cliente</a><br><br>
+                <button class="btn btn-info" data-toggle="modal" data-target="#modalRegisterCustomer"
+                    onclick="registerCustomer()">Registrar Cliente</button><br><br>
                 <table class="table table-hover" id="tabla">
                     <thead>
                         <tr style="background-color: #239B56;">
@@ -27,6 +28,66 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <!-- Modal filtro titulo -->
+            <div class="modal fade " id="modalRegisterCustomer" tabindex="-1" aria-labelledby="modalRegisterCustomer"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tituloRegisterCustomer">Filtrar por título</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formRegisterCustomer" th:action="@{/registerCustomer}" method="POST">
+                            <div class="modal-body">
+                                <label for="inputFirstName">Nombre</label>
+                                <input id="inputFirstName" name="inputFirstName" type="text"
+                                    placeholder="Escribe el nombre" class="form-control" /> <br>
+                                <label for="inputLastName">Apellido</label>
+                                <input id="inputLastName" name="inputLastName" type="text"
+                                    placeholder="Escribe el apellido" class="form-control" /> <br>
+                                <label for="inputEmail">Email</label>
+                                <input id="inputEmail" name="inputEmail" type="email" placeholder="Escribe el email"
+                                    class="form-control" /> <br>
+                                <label for="inputAddress">Direccion</label>
+                                <input id="inputAddress" name="inputAddress" type="text"
+                                    placeholder="Escriba su direccion" class="form-control" /> <br>
+                                <label for="inputDistrict">Distrito</label>
+                                <input id="inputDistrict" name="inputDistrict" type="text"
+                                    placeholder="Escriba el distrito" class="form-control" /> <br>
+                                <label for="selectCountry">Pais</label>
+                                <select id="selectCountry" name="selectCountry" class="form-control"
+                                    th:onchange="'javascript:filtrarCiudad();'">
+                                    <option value="-1">Selecciona una opción</option>
+                                    <option th:each="country : ${countries}" th:value="${country.countryId}"
+                                        th:text="${country.country}"></option>
+                                </select><br>
+                                <label for="selectCity">Ciudad</label>
+                                <select id="selectCity" name="selectCity" class="form-control">
+                                    <option value="-1" selected>Selecciona una opción</option>
+                                    <option th:each="city : ${cities}" th:value="${city.cityId}" th:text="${city.city}">
+                                    </option>
+                                </select><br>
+                                <label for="inputPhone">Telefono</label>
+                                <input id="inputPhone" name="inputPhone" type="text" placeholder="Escriba su telefono"
+                                    class="form-control" /> <br>
+                                <label for="selectStore">Sucursal</label>
+                                <select id="selectStore" name="selectStore" class="form-control">
+                                    <option value="-1">Selecciona una opción</option>
+                                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                        th:text="${categoria.name}"></option>
+                                </select><br>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="botonCerrar2" type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Cancelar</button>
+                                <button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
