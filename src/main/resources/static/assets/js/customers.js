@@ -25,6 +25,12 @@ $(document).ready(function () {
 		},
 	});
 
+	if ($("#selectCountry option").filter(':selected').val() == "") {
+		$("#selectCity").prop("disabled", true);
+	} else {
+		$("#selectCity").prop("disabled", false);
+	}
+
 	/*$("#selectCountry").change(function () {
 		if ($(this).val() !== -1) {
 			$("#selectCity").prop("disabled", false);
@@ -37,12 +43,12 @@ $(document).ready(function () {
 
 function filtrarCiudad() {
 	var countryId = $("#selectCountry option").filter(':selected').val()
-	if ($("#selectCountry option").filter(':selected').val() == -1) {
+	if ($("#selectCountry option").filter(':selected').val() == "") {
 		$("#selectCity").prop("disabled", true);
 	} else {
 		$("#selectCity").prop("disabled", false);
 	}
-	$('#selectCity').empty().append($('<option>').val(-1).text("Selecciona una opción"))
+	$('#selectCity').empty().append($('<option>').val("").text("Selecciona una opción"))
 	console.log(typeof countryId)
 	$.get("http://localhost:8666/filtroCiudad/" + countryId, function (cities, status) {
 		console.log(cities)
@@ -55,8 +61,13 @@ function filtrarCiudad() {
 
 	});
 }
+
 function registerCustomer() {
 	$("#tituloRegisterCustomer").html("Registrar cliente");
 	$('#formRegisterCustomer').attr('action', '/registerCustomer');
+	$.get("http://localhost:8666/registerCustomer" , function (cities, status) {
+		console.log(cities)
+	});
 }
+
 

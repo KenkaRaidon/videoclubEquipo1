@@ -43,41 +43,49 @@
                         <form id="formRegisterCustomer" th:action="@{/registerCustomer}" method="POST">
                             <div class="modal-body">
                                 <label for="inputFirstName">Nombre</label>
-                                <input id="inputFirstName" name="inputFirstName" type="text"
-                                    placeholder="Escribe el nombre" class="form-control" /> <br>
+                                <input id="inputFirstName" name="firstName" type="text"
+                                    placeholder="Escribe el nombre" class="form-control" th:value="${customer.firstName}" required="required"/> <br>
+
                                 <label for="inputLastName">Apellido</label>
-                                <input id="inputLastName" name="inputLastName" type="text"
-                                    placeholder="Escribe el apellido" class="form-control" /> <br>
+                                <input id="inputLastName" name="lastName" type="text"
+                                    placeholder="Escribe el apellido" class="form-control" th:value="${customer.lastName}" required="required"/> <br>
+
                                 <label for="inputEmail">Email</label>
-                                <input id="inputEmail" name="inputEmail" type="email" placeholder="Escribe el email"
-                                    class="form-control" /> <br>
+                                <input id="inputEmail" name="email" type="email" placeholder="Escribe el email"
+                                    class="form-control" th:value="${customer.email}" required="required"/> <br>
+
                                 <label for="inputAddress">Direccion</label>
-                                <input id="inputAddress" name="inputAddress" type="text"
-                                    placeholder="Escriba su direccion" class="form-control" /> <br>
+                                <input id="inputAddress" name="address" type="text"
+                                    placeholder="Escriba su direccion" class="form-control" th:value="${eaddress.address}" required="required"/> <br>
+
                                 <label for="inputDistrict">Distrito</label>
-                                <input id="inputDistrict" name="inputDistrict" type="text"
-                                    placeholder="Escriba el distrito" class="form-control" /> <br>
+                                <input id="inputDistrict" name="district" type="text"
+                                    placeholder="Escriba el distrito" class="form-control" th:value="${eaddress.district}" required="required"/> <br>
+
                                 <label for="selectCountry">Pais</label>
                                 <select id="selectCountry" name="selectCountry" class="form-control"
-                                    th:onchange="'javascript:filtrarCiudad();'">
-                                    <option value="-1">Selecciona una opción</option>
+                                    th:onchange="'javascript:filtrarCiudad();'" required>
+                                    <option value="">Selecciona una opción</option>
                                     <option th:each="country : ${countries}" th:value="${country.countryId}"
                                         th:text="${country.country}"></option>
                                 </select><br>
+
                                 <label for="selectCity">Ciudad</label>
-                                <select id="selectCity" name="selectCity" class="form-control">
-                                    <option value="-1" selected>Selecciona una opción</option>
-                                    <option th:each="city : ${cities}" th:value="${city.cityId}" th:text="${city.city}">
+                                <select id="selectCity" name="city" class="form-control" required>
+                                    <option value="" selected>Selecciona una opción</option>
+                                    <option th:each="city : ${cities}" th:value="${city.city}" th:text="${city.city}">
                                     </option>
                                 </select><br>
+
                                 <label for="inputPhone">Telefono</label>
-                                <input id="inputPhone" name="inputPhone" type="text" placeholder="Escriba su telefono"
-                                    class="form-control" /> <br>
+                                <input id="inputPhone" name="phone" type="text" placeholder="Escriba su telefono"
+                                    class="form-control" th:value="${eaddress.phone}" required="required"/> <br>
+
                                 <label for="selectStore">Sucursal</label>
-                                <select id="selectStore" name="selectStore" class="form-control">
-                                    <option value="-1">Selecciona una opción</option>
-                                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
-                                        th:text="${categoria.name}"></option>
+                                <select id="selectStore" name="storeId" class="form-control" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option th:each="store : ${stores}" th:value="${store.store_id}"
+                                        th:text="${store.address}"></option>
                                 </select><br>
                             </div>
                             <div class="modal-footer">

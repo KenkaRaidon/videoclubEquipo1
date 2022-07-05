@@ -9,7 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedNativeQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -30,7 +32,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private int customerId;
+    private Integer customerId;
 
     @Column(name = "store_id")
     private Integer storeId;
@@ -43,6 +45,12 @@ public class Customer {
 
     @Column(unique = true)
     private String email;
+
+    @OneToOne
+    @JoinColumn(name = "address_id")
+    private EAddress addressObject;
+    /*@Column(name = "address_id")
+    private Integer addressId;*/
 
     @Column(name = "activebool")
     private Boolean activeBool;
@@ -59,13 +67,14 @@ public class Customer {
         super();
     }
 
-    public Customer(int customerId, Integer storeId, String firstName, String lastName, String email, Boolean activeBool,
-            Date create_date, Timestamp last_update) {
+    public Customer(Integer customerId, Integer storeId, String firstName, String lastName, String email, EAddress addressObject,
+            Boolean activeBool, Date create_date, Timestamp last_update) {
         this.customerId = customerId;
         this.storeId = storeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.addressObject = addressObject;
         this.activeBool = activeBool;
         this.create_date = create_date;
         this.last_update = last_update;
@@ -73,11 +82,11 @@ public class Customer {
     // #endregion
 
     // #region getter setter
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
@@ -113,6 +122,14 @@ public class Customer {
         this.email = email;
     }
 
+    public EAddress getAddressObject() {
+        return addressObject;
+    }
+
+    public void setAddressObject(EAddress addressObject) {
+        this.addressObject = addressObject;
+    }
+
     public Boolean getActiveBool() {
         return activeBool;
     }
@@ -140,9 +157,9 @@ public class Customer {
     // #endregion
     @Override
     public String toString() {
-        return "Custormer [active=" + activeBool + ", create_date=" + create_date + ", customerId=" + customerId
-                + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", last_update="
-                + last_update + ", storeId=" + storeId + "]";
+        return "Customer [activeBool=" + activeBool + ", address=" + addressObject + ", create_date=" + create_date
+                + ", customerId=" + customerId + ", email=" + email + ", firstName=" + firstName + ", lastName="
+                + lastName + ", last_update=" + last_update + ", storeId=" + storeId + "]";
     }
 
 }
