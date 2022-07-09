@@ -17,4 +17,7 @@ public class InventoryService implements IInventoryService {
 		return inventoryRepository.findByInventoryId(inventoryId);
 	}
 
+	public Inventory save(Inventory inventory){
+		return inventoryRepository.save(inventory);
+	}
 }

@@ -53,7 +53,7 @@ function filtrarCiudad() {
 	$.get("http://localhost:8666/filtroCiudad/" + countryId, function (cities, status) {
 		console.log(cities)
 
-		for(var i=0; i<=cities.length-1; i++){
+		for (var i = 0; i <= cities.length - 1; i++) {
 			$('#selectCity').append($('<option>').val(cities[i].cityId).text(cities[i].city))
 			console.log(cities[i].cityId)
 			console.log(cities[i].city)
@@ -65,7 +65,7 @@ function filtrarCiudad() {
 function registerCustomer() {
 	$("#tituloRegisterCustomer").html("Registrar cliente");
 	$('#formRegisterCustomer').attr('action', '/registerCustomer');
-	$.get("http://localhost:8666/registerCustomer" , function (cities, status) {
+	$.get("http://localhost:8666/registerCustomer", function (cities, status) {
 		console.log(cities)
 	});
 }

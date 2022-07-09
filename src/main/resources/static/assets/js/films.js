@@ -1,5 +1,11 @@
 $(document).ready(function () {
 
+	var maxField = 10; //Input fields increment limitation
+	var addButton = $('.add_button'); //Add button selector
+	var wrapper = $('.field_wrapper'); //Input field wrapper
+	var fieldHTML = '<br><div><input type="text" name="actorFirstName[]" placeholder="Nombre del Actor"/><input type="text" name="actorLastName[]" placeholder="Apellido del Actor"/>&nbsp<button id="eliminarActor" href="javascript:void(0);" class="btn btn-danger">-</button></div>'; //New input field html 
+	var x = 1; //Initial field counter is 1
+
 	$('#tabla').DataTable({
 		language: {
 			processing: "Tratamiento en curso...",
@@ -26,8 +32,44 @@ $(document).ready(function () {
 
 	});
 
+	 //Once add button is clicked
+	 $("#agregarActor").click(function(e){
+		e.preventDefault();
+        //Check maximum number of input fields
+        if(x < maxField){ 
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+    
+    //Once remove button is clicked
+    $(wrapper).on('click', '#eliminarActor', function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove field html
+        x--; //Decrement field counter
+    });
+
+	$('#selectCategory').select2({
+		placeholder:"Selecciona una categoria"
+	});
 
 });
+
+function showModalFilm(){
+	//Reference the DropDownList.
+	var selectReleaseYear = document.getElementById("selectReleaseYear");
+ 
+	//Determine the Current Year.
+	var currentYear = (new Date()).getFullYear();
+
+	//Loop and add the Year values to DropDownList.
+	for (var i = 1888; i <= currentYear; i++) {
+		var option = document.createElement("option");
+		option.innerHTML = i;
+		option.value = i;
+		selectReleaseYear.appendChild(option);
+	}
+}
 
 function categoria() {
 	let valor = $("#selectCategoria").val()

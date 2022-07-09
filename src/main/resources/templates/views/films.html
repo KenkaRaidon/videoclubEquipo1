@@ -10,7 +10,9 @@
 		<div id="page-content-wrapper" style="width:100%;">
 			<!-- Page content-->
 			<div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
-
+				<button class="btn btn-success" data-toggle="modal" data-target="#modalRegisterFilm"
+					onclick="showModalFilm()">Registrar
+					pelicula</button>
 				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroTitulo"
 					onclick="titulo()">Filtrar por título</button>
 				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroCategoria">Filtrar por
@@ -41,6 +43,73 @@
 			</div>
 		</div>
 
+		<!-- Modal registro de pelicula -->
+		<div class="modal fade " id="modalRegisterFilm" tabindex="-1" aria-labelledby="modalRegisterFilm"
+			aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="tituloModalCambiar">Registro de pelicula</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<form id="formRegisterFilm" th:action="@{/registerFilm}" method="POST">
+						<div class="modal-body">
+							<label for="inputTitle">Titulo</label>
+							<input id="inputTitle" name="title" type="text" placeholder="Escribe el titulo"
+								class="form-control" th:value="${film.title}" /> <br>
+
+							<label for="selectReleaseYear">Año de Lanzamiento</label>
+							<select id="selectReleaseYear" name="release_year" class="form-control"></select><br>
+
+							<label for="selectCategory">Categoria</label>
+							<select id="selectCategory" multiple="multiple" name="category[]" class="form-control">
+								<option value="">Selecciona una categoria</option>
+								<option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+									th:text="${categoria.name}"></option>
+							</select><br>
+
+							<label for="selectLanguage">Idioma</label>
+							<select id="selectLanguage" name="language" class="form-control">
+								<option value="">Selecciona una opción</option>
+								<option th:each="language : ${languages}" th:value="${language.language_id}"
+									th:text="${language.name}"></option>
+							</select><br>
+
+							<label for="selectRating">Clasificacion</label>
+							<select id="selectRating" name="rating" class="form-control">
+								<option th:value="G">G</option>
+								<option th:value="PG">PG</option>
+								<option th:value="PG-13">PG-13</option>
+								<option th:value="R">R</option>
+								<option th:value="NC-17">NC-17</option>
+							</select><br>
+
+							<label for="inputCopy">Numero de copias</label>
+							<input id="inputCopy" name="copy" type="number" placeholder="Escriba el distrito"
+								class="form-control" /> <br>
+
+							<label for="actorFirstName">Actores</label>
+							<div class="field_wrapper">
+								<div>
+									<input type="text" name="actorFirstName[]" placeholder="Nombre del Actor" class="form-control"/>
+									<input type="text" name="actorLastName[]" placeholder="Apellido del Actor"class="form-control" />
+									<button id="agregarActor" class="btn btn-primary" href="javascript:void(0);"
+										title="Add field" >+</button>
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button id="botonCerrar2" type="button" class="btn btn-secondary"
+								data-dismiss="modal">Cancelar</button>
+							<button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
 		<!-- Modal filtro titulo -->
 		<div class="modal fade " id="modalFiltroTitulo" tabindex="-1" aria-labelledby="modalFiltroTitulo"
 			aria-hidden="true">
@@ -71,20 +140,20 @@
 			<div class="modal-dialog">
 				<div class="modal-header">
 					<h5 class="modal-title" id="tituloModalMultas">Multas</h5>
-					<button type="button" class = "close" data-dismiss="modal" aria-label="Close">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form id = "formMultas" th:action="@{/multas}" method="POST">
-									<div class="modal-body">
-							<input id="inputCambiar" name="inputCambiar" type="text" placeholder="Escribe el nombre"
-								class="form-control" />
-						</div>
-						<div class="modal-footer">
-							<button id="botonCerrar2" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Cancelar</button>
-							<button id="botonGuardar2" type="submit" class="btn btn-primary">Buscar</button>
-						</div>
+				<form id="formMultas" th:action="@{/multas}" method="POST">
+					<div class="modal-body">
+						<input id="inputCambiar" name="inputCambiar" type="text" placeholder="Escribe el nombre"
+							class="form-control" />
+					</div>
+					<div class="modal-footer">
+						<button id="botonCerrar2" type="button" class="btn btn-secondary"
+							data-dismiss="modal">Cancelar</button>
+						<button id="botonGuardar2" type="submit" class="btn btn-primary">Buscar</button>
+					</div>
 				</form>
 			</div>
 		</div>

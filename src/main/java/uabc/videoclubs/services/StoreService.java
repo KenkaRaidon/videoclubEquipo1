@@ -1,6 +1,7 @@
 package uabc.videoclubs.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,11 @@ public class StoreService {
     @Autowired
     StoreRepository storeRepository;
 
-    public List<StoreIndex> findStoreAndAddress(){
+    public List<StoreIndex> findStoreAndAddress() {
         return storeRepository.findStoreAndAddress();
     }
-    
+
+    public Optional<Store> findStoreById(Integer storeId) {
+        return storeRepository.findById(storeId);
+    }
 }

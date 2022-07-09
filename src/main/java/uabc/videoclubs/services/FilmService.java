@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import uabc.videoclubs.entities.CatalogoIndex;
 import uabc.videoclubs.entities.Film;
+import uabc.videoclubs.entities.FilmActor;
 import uabc.videoclubs.repository.FilmRepository;
 
 @Service
@@ -47,5 +48,19 @@ public class FilmService implements IFilmService{
 		return filmRepository.obtenerActores(filmId);
 	}
 	
+	public Film obtenerPelicula(Integer filmId){
+		return filmRepository.obtenerPelicula(filmId);
+	}
 	
+	public void saveFilmActor(Integer actorId, Integer filmId){
+		filmRepository.saveFilmActor(actorId, filmId);
+	}
+
+	public void saveFilmCategory(Integer categoryId, Integer filmId){
+		filmRepository.saveFilmCategory(categoryId, filmId);
+	}
+
+	public Film saveFilm(Film film){
+		return filmRepository.save(film);
+	}
 }
