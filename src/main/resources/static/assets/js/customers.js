@@ -23,31 +23,51 @@ $(document).ready(function () {
 				sortDescending: ": active para ordenar la columna en orden descendente"
 			}
 		},
-
 	});
+
+	if ($("#selectCountry option").filter(':selected').val() == "") {
+		$("#selectCity").prop("disabled", true);
+	} else {
+		$("#selectCity").prop("disabled", false);
+	}
+
+	/*$("#selectCountry").change(function () {
+		if ($(this).val() !== -1) {
+			$("#selectCity").prop("disabled", false);
+		} else {
+			$("#selectCity").prop("disabled", true);
+			
+		}
+	});​*/
 });
 
 function filtrarCiudad() {
-	var countryId= $("#selectCountry option").filter(':selected').val()
+	var countryId = $("#selectCountry option").filter(':selected').val()
+	if ($("#selectCountry option").filter(':selected').val() == "") {
+		$("#selectCity").prop("disabled", true);
+	} else {
+		$("#selectCity").prop("disabled", false);
+	}
+	$('#selectCity').empty().append($('<option>').val("").text("Selecciona una opción"))
 	console.log(typeof countryId)
-	$.get("http://localhost:8666/filtroCiudad/" + parseInt(countryId), function (data, status) {
-		console.log(data);
-		console.log(status);
-		console.log(countryId);
-		let cities = data.cities;
+	$.get("http://localhost:8666/filtroCiudad/" + countryId, function (cities, status) {
+		console.log(cities)
+
+		for (var i = 0; i <= cities.length - 1; i++) {
+			$('#selectCity').append($('<option>').val(cities[i].cityId).text(cities[i].city))
+			console.log(cities[i].cityId)
+			console.log(cities[i].city)
+		}
 
 	});
 }
-/*function createCustomer() {
-	$("#tituloCreateCustomer").html("Registrar cliente");
-	$('#formCreateCustomer').attr('action', '/createCustomer');
+
+function registerCustomer() {
+	$("#tituloRegisterCustomer").html("Registrar cliente");
+	$('#formRegisterCustomer').attr('action', '/registerCustomer');
+	$.get("http://localhost:8666/registerCustomer", function (cities, status) {
+		console.log(cities)
+	});
 }
 
-$("#selectCountry").change(function () {
-	if ($(this).val() !== -1) {
-		$("#selectCity").prop("disabled", false);
-	} else {
-		$("#selectCity").prop("disabled", true);
-		
-	}
-});​*/
+

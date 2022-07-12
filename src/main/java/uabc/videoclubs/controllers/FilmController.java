@@ -2,34 +2,52 @@ package uabc.videoclubs.controllers;
 
 //import java.io.IOException;
 import java.security.Principal;
+import java.sql.Date;
+import java.sql.Timestamp;
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import uabc.videoclubs.entities.Actor;
 import uabc.videoclubs.entities.CatalogoIndex;
 import uabc.videoclubs.entities.Category;
 import uabc.videoclubs.entities.Film;
+import uabc.videoclubs.entities.FilmActor;
+import uabc.videoclubs.entities.Inventory;
+import uabc.videoclubs.entities.Language;
+import uabc.videoclubs.entities.Staff;
+import uabc.videoclubs.entities.Store;
+import uabc.videoclubs.entities.mpaa_rating;
+import uabc.videoclubs.services.ActorService;
 import uabc.videoclubs.services.CategoryService;
 import uabc.videoclubs.services.FilmService;
 import uabc.videoclubs.services.InventoryService;
-//import uabc.videoclubs.services.LanguageService;
+import uabc.videoclubs.services.LanguageService;
+import uabc.videoclubs.services.StoreService;
+import uabc.videoclubs.services.UserService;
 
 
 @Controller
@@ -37,21 +55,31 @@ public class FilmController {
 
     @Autowired
 	private FilmService filmService;
+
+	@Autowired 
+	private ActorService actorService;
 	
 	@Autowired
 	private CategoryService categoryService;
 	
-	/*@Autowired
-	private LanguageService languageService;*/
+	@Autowired
+	private LanguageService languageService;
 	
 	@Autowired
 	private InventoryService inventoryService;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private StoreService storeService;
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = {"/","index", "films"})
 	public String index(Model model, HttpServletRequest request, HttpServletResponse response, Principal principal) {
 		List<CatalogoIndex> catalogo;
-		//System.out.println(model.getAttribute("catalogo"));
+		List<Language> languages=languageService.findAll();
+		List <Category> categorias = categoryService.findAll();
 		
 		if(model.getAttribute("catalogo")==null) {
 			catalogo = filmService.obtenerPeliculas();
@@ -60,9 +88,9 @@ public class FilmController {
 			catalogo = (List<CatalogoIndex>) model.getAttribute("catalogo");
 		}
 		
-		
-		List <Category> categorias = categoryService.findAll();
-		
+		model.addAttribute("film", new Film());
+		model.addAttribute("actor", new Actor());
+		model.addAttribute("languages",languages);
 		model.addAttribute("catalogo",catalogo);
 		model.addAttribute("categorias",categorias);
 		
@@ -140,5 +168,51 @@ public class FilmController {
 		Map<String, Object> response = new HashMap<>();		
 		response.put("result", inventoryService.findByInventoryId(inventoryId));		
 		return response;
+	}
+
+	@PostMapping("/registerFilm")
+	public String registerCustomer(@ModelAttribute("film") Film film, @RequestParam("category[]") List<Integer> categories, @RequestParam("release_year") Integer releaseYear, @RequestParam("rating") String rating, @RequestParam("copy") Integer copy, @RequestParam("actorFirstName[]") List<String> actorsFirstName, @RequestParam("actorLastName[]") List<String> actorsLastName, Model model) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails)principal).getUsername();
+		Staff staff=userService.findStaffByUsername(username);
+		Short rentalDuration=3;
+
+		Optional<Store> store=storeService.findStoreById(staff.getStoreId());
+		System.out.println(store);
+		
+		Timestamp lastUpdate= new Timestamp(System.currentTimeMillis());
+		//film.setReleaseYear(releaseYear);
+		//film.setRating(rating);
+		film.setRentalDuration(rentalDuration);
+		film.setRentalRate(4.99f);
+		film.setReplacementCost(19.99f);
+		film.setLast_update(lastUpdate);
+		filmService.saveFilm(film);
+		System.out.println("Id de la pelicula"+film.getFilmId());
+
+		for (Integer category : categories) {
+			filmService.saveFilmCategory(category, film.getFilmId());
+			System.out.println(category);
+		}
+
+		for (int i=0, j=0; i<actorsFirstName.size() && j< actorsLastName.size(); i++, j++) {
+			Actor actor= new Actor();
+			actor.setFirstName(actorsFirstName.get(i));
+			actor.setLastName(actorsLastName.get(i));
+			actor.setLast_update(new Timestamp(System.currentTimeMillis()));
+			actorService.save(actor);
+			filmService.saveFilmActor(actor.getActorId(), film.getFilmId());
+			System.out.println(i+": "+actorsFirstName.get(i)+" "+actorsLastName.get(i)+" id: "+ actor.getActorId());
+		}
+		
+		for(int i=0; i<copy; i++){
+			Inventory inventory= new Inventory();
+			inventory.setFilm(film);
+			inventory.setStore(store.get());
+			inventory.setLastUpdate(lastUpdate);
+			inventoryService.save(inventory);
+		}
+		
+		return "redirect:/films";
 	}
 }

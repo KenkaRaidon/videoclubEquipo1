@@ -12,4 +12,8 @@ public interface StaffRepository extends JpaRepository<Staff, Integer>{
     
     @Query(value ="select s.email from staff s where s.email ==?1" , nativeQuery=true)
     public abstract String findByEmail(String email);
+
+    @Query(value ="select * from staff s where s.username ==?1" , nativeQuery=true)
+    public Staff findStaffByEmail(String username);
+
 }
