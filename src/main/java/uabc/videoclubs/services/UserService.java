@@ -50,4 +50,8 @@ public class UserService implements UserDetailsService{
     public String findByEmail(String email){
         return staffRepository.findByEmail(email);
     }
+
+    public Staff findStaffByUsername(String username){
+        return staffRepository.findByUsername(username);
+    }
 }
