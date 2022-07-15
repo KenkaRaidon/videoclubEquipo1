@@ -64,7 +64,8 @@
                                     <label for="inputCustomerId">Numero del Cliente</label>
                                     <input id="inputCustomerId" name="customerId" type="number"
                                         placeholder="Introduce el numero del cliente" class="form-control"
-                                        oninput="findCustomer();" required="required" th:value="${rental.customerId}"/> <br>
+                                        oninput="findCustomer();" required="required" th:value="${rental.customerId}" />
+                                    <br>
                                     <input id="inputCustomerName" type="text" class="form-control" readonly /> <br>
 
                                     <label for="inputInventoryId">Numero del Pelicula</label>
@@ -73,7 +74,7 @@
                                             <div class="col-8">
                                                 <input id="inputInventoryId" type="number" name="inventoryId[]"
                                                     placeholder="Numero de Pelicula" class="form-control"
-                                                    required="required" oninput="findFilm();"/>
+                                                    required="required" oninput="findFilm();" />
                                             </div>
                                             <div class="col-sm-auto">
                                                 <button id="agregarFilm" class="btn btn-primary"
@@ -130,16 +131,16 @@
                                             <label for="inputTotal">Total</label>
                                         </div>
                                         <div class="col-sm-auto">
-                                            <input id="inputTotal" type="number" placeholder="Total"
+                                            <input id="inputTotal" name="amount" type="number" placeholder="Total"
                                                 class="form-control" readonly />
                                         </div>
                                     </div>
 
                                     <br>
                                     <label for="inputMonto">Monto a pagar</label>
-                                    <input id="inputMonto" name="amount" type="number"
-                                        placeholder="Introduce el monto a pagar" class="form-control"
-                                        oninput="calcularCambio();" required="required" min="0.00" max="10000.00" step="0.01"/> <br>
+                                    <input id="inputMonto" type="number" placeholder="Introduce el monto a pagar"
+                                        class="form-control" oninput="calcularCambio();" required="required" min="0.00"
+                                        max="10000.00" step="0.01" /> <br>
 
                                     <div class="row">
                                         <div class="col-sm-auto">

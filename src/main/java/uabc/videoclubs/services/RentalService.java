@@ -14,20 +14,25 @@ import java.util.List;
 
 @Service
 public class RentalService implements IRentalService {
-	
+
 	@Autowired
 	private RentalRepository rentalRepository;
-	
+
 	@Override
-	public List<ReturnIndex> returns(Integer id){
+	public List<ReturnIndex> returns(Integer id) {
 		return rentalRepository.returns(id);
 	}
-	
+
 	@Override
-	public Optional<Rental> findById(Integer id){
+	public Optional<Rental> findById(Integer id) {
 		return rentalRepository.findById(id);
 	}
-	public List<Rental> findAll(){
-        return rentalRepository.findAll();
-    }
+
+	public List<Rental> findAll() {
+		return rentalRepository.findAll();
+	}
+
+	public Rental save(Rental rental){
+		return rentalRepository.save(rental);
+	}
 }
