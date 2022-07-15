@@ -19,8 +19,10 @@
         <div id="page-content-wrapper" style="width:100%;">
             <!-- Page content-->
             <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
-                <a class="btn btn-info" th:href="@{/rentalregister}">Registar renta</a><br><br>
-                <button class="btn btn-success" onClick="location.href = '/return'"> Devolucion</button>
+                <button class="btn btn-success" data-toggle="modal" data-target="#modalRegisterRental">Registar
+                    renta</button>
+                <button class="btn btn-info" data-toggle="modal" data-target="#modalRegisterReturn">Devolucion</button>
+                <!-- 
                 <table class="table table-hover" id="tabla">
                     <thead>
                         <tr style="background-color: #239B56;">
@@ -44,7 +46,122 @@
                             <td th:text="${rental.lastUpdate}"></td>
                         </tr>
                     </tbody>
-                </table>
+                </table>-->
+
+                <!-- Modal registro de Rentas -->
+                <div class="modal fade " id="modalRegisterRental" tabindex="-1" aria-labelledby="modalRegisterRental"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tituloModalCambiar">Registro de rentas</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="formRegisterFilm" th:action="@{/registerRental}" method="POST">
+                                <div class="modal-body">
+                                    <label for="inputCustomerId">Numero del Cliente</label>
+                                    <input id="inputCustomerId" name="customerId" type="number"
+                                        placeholder="Introduce el numero del cliente" class="form-control"
+                                        oninput="findCustomer();" required="required" th:value="${rental.customerId}"/> <br>
+                                    <input id="inputCustomerName" type="text" class="form-control" readonly /> <br>
+
+                                    <label for="inputInventoryId">Numero del Pelicula</label>
+                                    <div id="filmsField">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <input id="inputInventoryId" type="number" name="inventoryId[]"
+                                                    placeholder="Numero de Pelicula" class="form-control"
+                                                    required="required" oninput="findFilm();"/>
+                                            </div>
+                                            <div class="col-sm-auto">
+                                                <button id="agregarFilm" class="btn btn-primary"
+                                                    href="javascript:void(0);" title="Add field">+</button>
+                                            </div>
+                                            <div class="col-sm-auto">
+                                                <button id="quitarFilm" class="btn btn-danger"
+                                                    href="javascript:void(0);" title="Remove field">-</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <table class="table table-hover" id="tablaFilms">
+                                        <thead>
+                                            <tr style="background-color: #239B56;">
+                                                <th class="text-white" scope="col">Titulo Pelicula</th>
+                                                <th class="text-white" scope="col">Tarifa</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table><br>
+
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <label for="inputSubtotal">Subtotal</label>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <input id="inputSubtotal" type="number" placeholder="Subtotal"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <label for="inputIVA">IVA</label>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <input id="inputIVA" type="number" placeholder="IVA" class="form-control"
+                                                readonly />
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <label for="inputTotal">Total</label>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <input id="inputTotal" type="number" placeholder="Total"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <label for="inputMonto">Monto a pagar</label>
+                                    <input id="inputMonto" name="amount" type="number"
+                                        placeholder="Introduce el monto a pagar" class="form-control"
+                                        oninput="calcularCambio();" required="required" min="0.00" max="10000.00" step="0.01"/> <br>
+
+                                    <div class="row">
+                                        <div class="col-sm-auto">
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <label for="inpuCambio">Cambio</label>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <input id="inpuCambio" type="number" placeholder="Cambio"
+                                                class="form-control" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="botonCerrar2" type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
