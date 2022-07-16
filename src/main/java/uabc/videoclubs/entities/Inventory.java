@@ -37,7 +37,6 @@ public class Inventory {
 	}
 
 	public Inventory(Integer inventoryId) {
-		super();
 		this.inventoryId = inventoryId;
 	}
 

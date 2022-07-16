@@ -14,4 +14,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer>{
 	@Query(value = "select r.return_date, f.title from rental r inner join inventory i ON i.inventory_id = r.inventory_id inner join film f on f.film_id = i.film_id where r.inventory_id = ?1", nativeQuery = true)
 	public  List<ReturnIndex> returns(Integer id);
 	public Optional<Rental>  findById(Integer rentalId);
+	
+	@Query(value ="select * from rental where inventory_id=?1" , nativeQuery=true)
+	public List<Rental> getbyInv(Integer inv);
 }

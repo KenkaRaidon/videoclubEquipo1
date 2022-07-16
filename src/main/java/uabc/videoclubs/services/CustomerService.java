@@ -23,6 +23,12 @@ public class CustomerService implements ICustomerService{
 	public Optional<Customer> findById(Integer id) {
 		return customerRepository.findById(id);
 	}
+    
+   
+	public Customer GetbyId(Integer id) {
+    	return customerRepository.getById(id);
+    	
+    }
 
     public Customer save(Customer customer){
         return customerRepository.save(customer);

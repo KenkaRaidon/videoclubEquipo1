@@ -8,7 +8,7 @@ public class auxilarController {
 
         @RequestMapping("/prueba")
         public String helloWorld() {
-                return "views/devolucion";
+                return "views/";
         }
 
 }

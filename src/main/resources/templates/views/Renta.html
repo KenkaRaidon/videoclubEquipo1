@@ -12,10 +12,11 @@
     <div class="shadow-lg p-3 mb-5 bg-body rounded">
    <h4>Datos de la renta</h4>
    
+   <form id="formRegistarRenta" th:action="@{/saverenta}" method="POST"  >
    <div class="form-group row">
     <label for="inputcliente" class="col-sm-2 col-form-label">Numero de cliente</label>
     <div class="col-sm-3">
-     <input type="number" class="form-control" id="inputcliente"  >    
+     <input type="number" class="form-control" id="inputcliente" name="cliente" th:field="${renta.customerId}">    
     </div>
     </div>
     
@@ -25,7 +26,7 @@
      <div class="form-group row">
     <label for="inputpelicula" class="col-sm-2 col-form-label">Numero de pelicula</label>
     <div class="col-sm-3">
-     <input type="number" class="form-control"id="inputpelicula" width="20" >    
+     <input type="number" class="form-control"id="inputpelicula" name="pelicula" th:field="${renta.inventoryId}" required>    
     </div>
     </div>
      
@@ -43,17 +44,11 @@
   <tbody>
     <tr>
       <th scope="row">1</th>
-      <td>pokemon</td>
-      <td>20$</td>
+      <td th:text="${pelicula.title}"></td>
+      <td th:text="${pelicula.replacementCost}"></td>
     
     </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Naruto</td>
-      <td>10$</td>
-      
-    </tr>
-   
+  
   </tbody>
 </table>
 </div>
@@ -62,21 +57,21 @@
    <div class="form-group row">
    <label for="subtotal" class="col-sm-3 col-form-label">Subtotal  </label>
    <div class="col-sm-5">
-      <input type="text" readonly class="form-control-plaintext" id="subtotal" value="0">
+      <input type="text" readonly class="form-control-plaintext" id="subtotal" name="subtotal" th:value="${subtotal}">
     </div>
     </div>
     
      <div class="form-group row">
    <label for="iva" class="col-sm-2 col-form-label">Iva</label>
    <div class="col-sm-5">
-      <input type="text" readonly class="form-control-plaintext" id="iva" value="0">
+      <input type="text" readonly class="form-control-plaintext" id="iva" name="iva" th:value="${iva}">
     </div>
     </div>
     
      <div class="form-group row">
    <label for="total" class="col-sm-2 col-form-label">Total</label>
    <div class="col-sm-5">
-      <input type="text" readonly class="form-control-plaintext" id="total" value="0">
+      <input type="text" readonly class="form-control-plaintext" id="total" name="total"  th:value="${total}">
     </div>
     </div>
     
@@ -84,13 +79,64 @@
    
    
    
-        <div class="col text-center">
+        
+    	
+    	   <div class="form-group row">
+   		 <label for="inputpago" class="col-sm-2 col-form-label">Ingresar pago</label>
+    	<div class="col-sm-3">
+    	 <input type="number" class="form-control"id="inputpago" name="pago" th:value="${pago}">    
+    	</div>
+    	</div>
+    	
+    	<div class="col text-center">
    		<div class="col-sm-5">
       	  <button type="submit" class="btn btn-primary">Registrar</button>
     	</div>
     	</div>
+     </form>
+    	 <div class="form-group row">
+      <label for="cambio" class="col-sm-2 col-form-label">Cambio</label>
+      <div class="col-sm-5" th:if="${cambio}">
+      <input type="number" readonly class="form-control-plaintext" id="cambio" name="cambio"  th:value="${cambio}">
+      </div>
+      </div>
+    	
+    	
+   
+    
+    			
+         <div class="alert alert-warning" role="alert" th:if="${ErrorU}">
+     El cliente no existe!!!
     </div>
+    
+     <div class="alert alert-warning" role="alert" th:if="${Desactivdo}">
+     El cliente tiene la cuenta desactivada
     </div>
+ 
+      <div class="alert alert-warning" role="alert" th:if="${Rentado}">
+     La pelicula se encuentra rentada
+    </div>
+    
+      <div class="alert alert-warning" role="alert" th:if="${Nofilm}">
+     No existe en inventario
+    </div>
+    
+    
+      <div class="alert alert-warning" role="alert" th:if="${PagoM}">
+        El ingreso del pago es menor al total
+    </div>
+    
+    
+      <div class="alert alert-success" role="alert" th:if="${PagoM}">
+       Renta Registrada!
+    </div>
+    
+    </div>
+    
+    
+    </div>
+    
+    
  
    </div>
    

@@ -30,4 +30,20 @@ public class RentalService implements IRentalService {
 	public List<Rental> findAll(){
         return rentalRepository.findAll();
     }
+	
+	
+	public Rental getbyinventory(Integer inv) {
+		List<Rental> Lista=rentalRepository.getbyInv(inv);
+		for(Rental var:Lista) {
+			if(var.getReturnDate()==null && var.getInventoryId()!=null)
+				return var;
+			
+		}
+		return null;
+		
+	}
+	
+	public Rental saveRental(Rental inv) {
+		return rentalRepository.save(inv);
+	}
 }
