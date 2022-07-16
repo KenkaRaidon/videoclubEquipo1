@@ -1,5 +1,6 @@
 package uabc.videoclubs.entities;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,22 +23,22 @@ import javax.persistence.ConstructorResult;
 		@ColumnResult(name = "title", type = String.class),
 		@ColumnResult(name = "rental_duration", type = Short.class),
 		@ColumnResult(name = "rental_rate", type = Float.class),
-		@ColumnResult(name = "replacement_cost", type = Float.class),
-	 }))
+		@ColumnResult(name = "replacement_cost", type = Float.class)
+}))
 @Entity
-@Table(name ="inventory")
+@Table(name = "inventory")
 public class Inventory {
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "inventory_id")
 	private Integer inventoryId;
-	       
-	@OneToOne(fetch = FetchType.LAZY)    
-	@JoinColumn(name="film_id") 
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "film_id")
 	private Film film;
 
-	@OneToOne(fetch = FetchType.LAZY)    
-	@JoinColumn(name="store_id") 
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	@Column(name = "last_update")
@@ -90,5 +91,4 @@ public class Inventory {
 				+ store + "]";
 	}
 
-	
 }

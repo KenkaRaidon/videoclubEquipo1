@@ -2,6 +2,8 @@ package uabc.videoclubs.controllers;
 
 import java.security.Principal;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import uabc.videoclubs.entities.Customer;
 import uabc.videoclubs.entities.InventoryIndex;
 import uabc.videoclubs.entities.Rental;
+import uabc.videoclubs.entities.ReturnIndex;
 import uabc.videoclubs.entities.Staff;
 import uabc.videoclubs.entities.Ticket;
 import uabc.videoclubs.services.CustomerService;
@@ -70,16 +73,33 @@ public class RentalController {
 		return inventoryService.obtenerInventario(inventoryId);
 	}
 
+	@GetMapping("obtenerInventarioReturn/{inventoryId}")
+	@ResponseBody
+	public ReturnIndex obtenerInventarioReturn(@PathVariable Integer inventoryId) {
+		ReturnIndex returnIndex = new ReturnIndex();
+		InventoryIndex inventoryIndex = inventoryService.obtenerInventario(inventoryId);
+		Rental rental = rentalService.findReturnDateByInventoryId(inventoryId);
+		System.out.println(rental);
+		System.out.println(inventoryIndex);
+		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
+		//LocalDateTime localDate= rental.getReturnDate().toLocalDateTime();
+		System.out.println("Fecha "+rental.getReturnDate());
+		returnIndex.setTitle(inventoryIndex.getTitle());
+		returnIndex.setReturnDate(rental.getReturnDate());
+		return returnIndex;
+	}
+
 	@PostMapping("/registerRental")
-	public String registerRental(@ModelAttribute("rental") Rental rental,
+	public String registerRental(@RequestParam("customerId") Integer customerId,
 			@RequestParam("inventoryId[]") List<Integer> inventories, @RequestParam("amount") Float amount) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails) principal).getUsername();
 		Staff staff = userService.findStaffByUsername(username);
 		Timestamp now = new Timestamp(System.currentTimeMillis());
-
+		// InventoryIndex inventoryIndex=new InventoryIndex();
 		for (Integer inventory : inventories) {
-			Ticket ticket=new Ticket();
+			Rental rental = new Rental();
+			Ticket ticket = new Ticket();
 			Calendar calendar = Calendar.getInstance();
 			InventoryIndex inventoryIndex = inventoryService.obtenerInventario(inventory);
 			System.out.println("Rental duration:  " + inventoryIndex.getRental_duration());
@@ -88,6 +108,7 @@ public class RentalController {
 			Timestamp returnDate = new Timestamp(date.getTime());
 			System.out.println(returnDate);
 
+			rental.setCustomerId(customerId);
 			rental.setInventoryId(inventory);
 			rental.setStaffId(staff.getStaffId());
 			rental.setRentalDate(now);
@@ -95,7 +116,7 @@ public class RentalController {
 			rental.setLastUpdate(now);
 
 			rentalService.save(rental);
-			System.out.println("Renta ID"+rental.getRentalId());
+			System.out.println("Renta ID" + rental.getRentalId());
 
 			ticket.setRentalId(rental.getRentalId());
 			ticket.setCustomerId(rental.getCustomerId());
@@ -105,9 +126,14 @@ public class RentalController {
 
 			ticketService.save(ticket);
 
-			System.out.println("Ticket ID"+ticket.getTicketId());
-			
+			System.out.println("Ticket ID" + ticket.getTicketId());
 		}
+		return "redirect:/rental";
+	}
+
+	@PostMapping("/registerDevolucion")
+	public String registerReturn() {
+
 		return "redirect:/rental";
 	}
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import uabc.videoclubs.entities.ReturnIndex;
-
+import uabc.videoclubs.entities.InventoryIndex;
 import uabc.videoclubs.entities.Rental;
 import uabc.videoclubs.repository.RentalRepository;
 import java.util.List;
@@ -34,5 +34,9 @@ public class RentalService implements IRentalService {
 
 	public Rental save(Rental rental){
 		return rentalRepository.save(rental);
+	}
+
+	public Rental findReturnDateByInventoryId(Integer inventoryId){
+		return rentalRepository.findReturnDateByInventoryId(inventoryId);
 	}
 }

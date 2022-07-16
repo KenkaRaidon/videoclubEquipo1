@@ -1,5 +1,7 @@
 package uabc.videoclubs.entities;
 
+import java.sql.Timestamp;
+
 public class InventoryIndex {
     private Integer inventory_id;
     private Integer film_id;
@@ -7,7 +9,7 @@ public class InventoryIndex {
     private Short rental_duration;
     private Float rental_rate;
     private Float replacement_cost;
-    
+
     public Integer getInventory_id() {
         return inventory_id;
     }
@@ -44,9 +46,9 @@ public class InventoryIndex {
     public void setReplacement_cost(Float replacement_cost) {
         this.replacement_cost = replacement_cost;
     }
+    
     public InventoryIndex(Integer inventory_id, Integer film_id, String title, Short rental_duration, Float rental_rate,
             Float replacement_cost) {
-        super();
         this.inventory_id = inventory_id;
         this.film_id = film_id;
         this.title = title;
@@ -54,6 +56,7 @@ public class InventoryIndex {
         this.rental_rate = rental_rate;
         this.replacement_cost = replacement_cost;
     }
+    
     @Override
     public String toString() {
         return "InventoryIndex [film_id=" + film_id + ", inventory_id=" + inventory_id + ", rental_duration="

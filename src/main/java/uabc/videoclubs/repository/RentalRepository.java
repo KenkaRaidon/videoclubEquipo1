@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import uabc.videoclubs.entities.InventoryIndex;
 import uabc.videoclubs.entities.Rental;
 import uabc.videoclubs.entities.ReturnIndex;
 
@@ -14,4 +15,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer>{
 	public  List<ReturnIndex> returns(Integer id);
 
 	public Optional<Rental>  findById(Integer rentalId);
+
+	@Query(value = "select * from rental r where r.inventory_id = ?1", nativeQuery = true)
+	public Rental findReturnDateByInventoryId(Integer inventoryId);
 }

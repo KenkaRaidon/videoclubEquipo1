@@ -1,23 +1,32 @@
 package uabc.videoclubs.entities;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ReturnIndex {
-	private Timestamp rturnDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Timestamp returnDate;
+
 	private String title;
 
-	public ReturnIndex(Timestamp rturnDate, String title) {
+	public ReturnIndex() {
 		super();
-		this.rturnDate = rturnDate;
+	}
+
+	public ReturnIndex(Timestamp returnDate, String title) {
+		super();
+		this.returnDate = returnDate;
 		this.title = title;
 	}
 
-	public Timestamp getRturnDate() {
-		return rturnDate;
+	public Timestamp getReturnDate() {
+		return returnDate;
 	}
 
-	public void setRturnDate(Timestamp rturnDate) {
-		this.rturnDate = rturnDate;
+	public void setReturnDate(Timestamp returnDate) {
+		this.returnDate = returnDate;
 	}
 
 	public String getTitle() {
@@ -30,13 +39,7 @@ public class ReturnIndex {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("ReturnIndex [rturnDate=");
-		builder.append(rturnDate);
-		builder.append(", title=");
-		builder.append(title);
-		builder.append("]");
-		return builder.toString();
+		return "ReturnIndex [returnDate=" + returnDate + ", title=" + title + "]";
 	}
 
 }

@@ -64,7 +64,7 @@
                                     <label for="inputCustomerId">Numero del Cliente</label>
                                     <input id="inputCustomerId" name="customerId" type="number"
                                         placeholder="Introduce el numero del cliente" class="form-control"
-                                        oninput="findCustomer();" required="required" th:value="${rental.customerId}" />
+                                        oninput="findCustomer();" required="required"/>
                                     <br>
                                     <input id="inputCustomerName" type="text" class="form-control" readonly /> <br>
 
@@ -164,7 +164,118 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Modal registro de devolucion -->
+            <div class="modal fade " id="modalRegisterReturn" tabindex="-1" aria-labelledby="modalRegisterReturn"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tituloModalCambiar">Datos de devolucion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="formRegisterReturn" th:action="@{/registerDevolucion}" method="POST">
+                            <div class="modal-body">
+                                <label for="inputInventoryId">Numero del Pelicula</label>
+                                <div id="filmsFieldReturn">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <input id="inputInventoryIdReturn" type="number" name="inventoryIdReturn[]"
+                                                placeholder="Numero de Pelicula" class="form-control"
+                                                required="required" oninput="findFilmReturn();" />
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <button id="agregarFilmReturn" class="btn btn-primary" href="javascript:void(0);"
+                                                title="Add field">+</button>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <button id="quitarFilmReturn" class="btn btn-danger" href="javascript:void(0);"
+                                                title="Remove field">-</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br>
+                                <table class="table table-hover" id="tablaFilmsReturn">
+                                    <thead>
+                                        <tr style="background-color: #239B56;">
+                                            <th class="text-white" scope="col">Titulo Pelicula</th>
+                                            <th class="text-white" scope="col">Vence</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table><br>
+
+                                <div class="row">
+                                    <div class="col-sm-auto">
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <label for="inputSubtotalReturn">Subtotal</label>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <input id="inputSubtotalReturn" type="number" placeholder="Subtotal"
+                                            class="form-control" readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-auto">
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <label for="inputIVAReturn">IVA</label>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <input id="inputIVAReturn" type="number" placeholder="IVA" class="form-control"
+                                            readonly />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-auto">
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <label for="inputTotalReturn">Total</label>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <input id="inputTotalReturn" name="amount" type="number" placeholder="Total"
+                                            class="form-control" readonly />
+                                    </div>
+                                </div>
+
+                                <br>
+                                <label for="inputMontoReturn">Monto a pagar</label>
+                                <input id="inputMontoReturn" type="number" placeholder="Introduce el monto a pagar"
+                                    class="form-control" oninput="calcularMulta();"  min="0.00"
+                                    max="10000.00" step="0.01" /> <br>
+
+                                <div class="row">
+                                    <div class="col-sm-auto">
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <label for="inpuCambioReturn">Cambio</label>
+                                    </div>
+                                    <div class="col-sm-auto">
+                                        <input id="inpuCambioReturn" type="number" placeholder="Cambio" class="form-control"
+                                            readonly />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="botonCerrar2" type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Cancelar</button>
+                                <button id="botonGuardarReturn" type="submit" class="btn btn-success">Registrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </div>
+    </div>
 
     </div>
     <div th:replace="layout/header :: footer"></div>
