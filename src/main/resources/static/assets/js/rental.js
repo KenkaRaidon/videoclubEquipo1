@@ -73,7 +73,7 @@ $(document).ready(function () {
 		}
 
 	});
-});
+}); 
 
 function findCustomer() {
 	var customerId = $("#inputCustomerId").val()
