@@ -3,7 +3,7 @@ $(document).ready(function () {
 	var maxField = 10; //Input fields increment limitation
 	var addButton = $('.add_button'); //Add button selector
 	var wrapper = $('.field_wrapper'); //Input field wrapper
-	var fieldHTML = '<br><div><input type="text" name="actorFirstName[]" placeholder="Nombre del Actor"/><input type="text" name="actorLastName[]" placeholder="Apellido del Actor"/>&nbsp<button id="eliminarActor" href="javascript:void(0);" class="btn btn-danger">-</button></div>'; //New input field html 
+	var fieldHTML = '<br><div><input type="text" name="actorFirstName[]" placeholder="Nombre del Actor" class="form-control" required="required"/><input type="text" name="actorLastName[]" placeholder="Apellido del Actor"class="form-control" required="required"/>&nbsp<button id="eliminarActor" href="javascript:void(0);" class="btn btn-danger">-</button></div>'; //New input field html 
 	var x = 1; //Initial field counter is 1
 
 	$('#tabla').DataTable({
