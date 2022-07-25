@@ -82,6 +82,8 @@ function findCustomer() {
 		if (customer != null) {
 			console.log(customer)
 			$("#inputCustomerName").val(customer.firstName + ' ' + customer.lastName)
+		}else{
+			$("#inputCustomerName").val('')
 		}
 
 	});

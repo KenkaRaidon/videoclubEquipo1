@@ -70,7 +70,15 @@ public class RentalController {
 	@GetMapping("obtenerInventario/{inventoryId}")
 	@ResponseBody
 	public InventoryIndex obtenerInventario(@PathVariable Integer inventoryId) {
-		return inventoryService.obtenerInventario(inventoryId);
+		/*Rental rental = rentalService.findRentalByInventoryId(inventoryId);
+		Ticket ticket= ticketService.findTicketByRentalId(rental.getRentalId());
+		System.out.println(ticket);*/
+		if(rentalService.findRentalByInventoryId(inventoryId)==null){
+			return inventoryService.obtenerInventario(inventoryId);
+		}else{
+			return null;
+		}
+		
 	}
 
 	@GetMapping("obtenerInventarioReturn/{inventoryId}")
@@ -78,7 +86,7 @@ public class RentalController {
 	public ReturnIndex obtenerInventarioReturn(@PathVariable Integer inventoryId) {
 		ReturnIndex returnIndex = new ReturnIndex();
 		InventoryIndex inventoryIndex = inventoryService.obtenerInventario(inventoryId);
-		Rental rental = rentalService.findReturnDateByInventoryId(inventoryId);
+		Rental rental = rentalService.findRentalByInventoryId(inventoryId);
 		System.out.println(rental);
 		System.out.println(inventoryIndex);
 		//DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
@@ -132,8 +140,15 @@ public class RentalController {
 	}
 
 	@PostMapping("/registerDevolucion")
-	public String registerReturn() {
+	public String registerReturn(@RequestParam("inventoryIdReturn[]") List<Integer> inventories) {
 
+		for (Integer inventory : inventories) {
+			Rental rental = rentalService.findRentalByInventoryId(inventory);
+			Ticket ticket= ticketService.findTicketByRentalId(rental.getRentalId());
+			ticket.setActive(false);
+			ticketService.save(ticket);
+			System.out.println(ticket);
+		}
 		return "redirect:/rental";
 	}
 }

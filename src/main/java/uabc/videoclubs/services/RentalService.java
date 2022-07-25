@@ -36,7 +36,7 @@ public class RentalService implements IRentalService {
 		return rentalRepository.save(rental);
 	}
 
-	public Rental findReturnDateByInventoryId(Integer inventoryId){
-		return rentalRepository.findReturnDateByInventoryId(inventoryId);
+	public Rental findRentalByInventoryId(Integer inventoryId){
+		return rentalRepository.findRentalByInventoryId(inventoryId);
 	}
 }
