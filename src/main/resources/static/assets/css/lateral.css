@@ -1,6 +1,6 @@
 .item-lateral {
   color:white;
-  background-color:  #006b40;
+  background-color:  rgb(16, 156, 209);
   text-align: left !important;
 }
 
@@ -22,8 +22,8 @@ ul{
   right: 0;
   margin: 50%;
   display: none !important;
-  background-color: #006b40 !important;
-  color: black;
+  background-color: #ff0000!important;
+  color: rgb(255, 0, 128);
   list-style: none;
   width: 200px !important ;
   
@@ -41,13 +41,13 @@ height: 50px !important;
 line-height: 50px !important;
 }
 .menu-lateral{
- background-color:  #006b40;
+ background-color:  rgb(16, 156, 209);
  width: 200px !important;
  position: relative;
 }
 
 .item-lateral:hover{
-background-color: #2d7759 !important;
+background-color: rgb(126, 193, 226) !important;
 color: white !important;
 position: relative;
 height: 55px !important;

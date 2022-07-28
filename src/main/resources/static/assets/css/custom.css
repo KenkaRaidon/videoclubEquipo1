@@ -44,15 +44,15 @@
 }
 
 h1{
-  font-family: Gillbold;
   font-size: 34pt;
   color: #1c1c1c;
   margin-top: 0.4em;
   margin-bottom: 0.6em;
+  font-family: 'Nunito', sans-serif;
 }
 
 h2{
-  font-family: Gillbold;
+  font-family: 'Nunito', sans-serif;
   font-size: 32pt;
   color: #1c1c1c;
   margin-top: 0.3em;
@@ -60,7 +60,7 @@ h2{
 }
 
 h3{
-  font-family: Gillbold;
+  font-family: 'Nunito', sans-serif;
   font-size: 30pt;
   color: #1c1c1c;
   margin-top: 0.2em;
@@ -68,7 +68,7 @@ h3{
 }
 
 h4{
-  font-family: Gillbold;
+  font-family: 'Nunito', sans-serif;
   font-size: 28pt;
   color: #1c1c1c;
   margin-top: 0.2em;
@@ -76,7 +76,7 @@ h4{
 }
 
 h5{
-  font-family: Gillbold;
+  font-family: 'Nunito', sans-serif;
   font-size: 26pt;
   color: #1c1c1c;
   margin-top: 0.1em;
@@ -84,13 +84,13 @@ h5{
 }
 
 h6{
-  font-family: Gillbold;
+  font-family: 'Nunito', sans-serif;
   font-size: 24pt;
   color: #1c1c1c;
 }
 
 .ribbon-header{
-  background-color: #006b40;
+  background-color: rgb(16, 156, 209);
   font-family: Minion;
   padding: 0.4em;
   color:white;
@@ -126,7 +126,9 @@ h6{
 
 .ribbon-header label{
   font-family: Gill;
-  font-size: 14pt;
+  font-size: 15pt;
+  font:"verdana";
+
 }
 
 .escudo{
@@ -423,7 +425,7 @@ padding-right: calc(-275px + 35vw);
 
 .footer{
   color: white;
-  background-color: #006b40;
+  background-color: rgb(16, 156, 209);
   padding:0.5em;
 padding-left: calc(-275px + 35vw);
 padding-right: calc(-275px + 35vw);
@@ -1739,12 +1741,12 @@ overflow: hidden !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current{
-  background-color: #ffa703 !important;
+  background-color: #85ace7!important;
   color: white !important;
 }
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
-  background-color: #ffa703 !important;
+  background-color: #96b4fa!important;
   color: white !important;
 }
 
@@ -1825,7 +1827,7 @@ background-color: rgba(0, 0, 0, 0.1) !important;
 
 .navbtn #hideicon-txt  {
   visibility: hidden;
-  background-color: #d19e01;
+  background-color: #6093df;
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.30);
   color: white;
   text-align: center;
