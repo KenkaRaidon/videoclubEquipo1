@@ -58,13 +58,24 @@
 						<div class="modal-body">
 							<label for="inputTitle">Titulo</label>
 							<input id="inputTitle" name="title" type="text" placeholder="Escribe el titulo"
-								class="form-control" th:value="${film.title}" required="required"/> <br>
+								class="form-control" th:value="${film.title}" required="required" /> <br>
+
+							<label for="inputDescription">Descripcion</label>
+							<textarea id="inputDescription" rows="5" cols="60" name="description" type="text" placeholder="Escribe el titulo"
+								class="form-control" th:value="${film.description}" ></textarea> <br>
 
 							<label for="selectReleaseYear">Año de Lanzamiento</label>
-							<select id="selectReleaseYear" name="release_year" class="form-control" required></select><br>
+							<select id="selectReleaseYear" name="release_year" class="form-control"
+								required></select><br>
+
+							<label for="inputLength">Duracion</label>
+							<input id="inputLength" name="length" type="number"
+								placeholder="Introduce duracion de la pelicula" class="form-control"
+								th:value="${film.length}" required="required" /> <br>
 
 							<label for="selectCategory">Categoria</label>
-							<select id="selectCategory" multiple="multiple" name="category[]" class="form-control" required>
+							<select id="selectCategory" multiple="multiple" name="category[]" class="form-control"
+								required>
 								<option value="">Selecciona una categoria</option>
 								<option th:each="categoria : ${categorias}" th:value="${categoria.id}"
 									th:text="${categoria.name}"></option>
@@ -88,15 +99,17 @@
 
 							<label for="inputCopy">Numero de copias</label>
 							<input id="inputCopy" name="copy" type="number" placeholder="Escriba el distrito"
-								class="form-control" required="required"/> <br>
+								class="form-control" required="required" /> <br>
 
 							<label for="actorFirstName">Actores</label>
 							<div class="field_wrapper">
 								<div>
-									<input type="text" name="actorFirstName[]" placeholder="Nombre del Actor" class="form-control" required="required"/>
-									<input type="text" name="actorLastName[]" placeholder="Apellido del Actor"class="form-control" required="required"/>
+									<input type="text" name="actorFirstName[]" placeholder="Nombre del Actor"
+										class="form-control" required="required" />
+									<input type="text" name="actorLastName[]" placeholder="Apellido del Actor"
+										class="form-control" required="required" />
 									<button id="agregarActor" class="btn btn-primary" href="javascript:void(0);"
-										title="Add field" >+</button>
+										title="Add field">+</button>
 								</div>
 							</div>
 
@@ -110,6 +123,7 @@
 				</div>
 			</div>
 		</div>
+
 		<!-- Modal filtro titulo -->
 		<div class="modal fade " id="modalFiltroTitulo" tabindex="-1" aria-labelledby="modalFiltroTitulo"
 			aria-hidden="true">

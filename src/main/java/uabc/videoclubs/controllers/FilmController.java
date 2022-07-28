@@ -178,10 +178,10 @@ public class FilmController {
 		Short rentalDuration=3;
 
 		Optional<Store> store=storeService.findStoreById(staff.getStoreId());
-		System.out.println(store);
+		System.out.println(releaseYear);
 		
 		Timestamp lastUpdate= new Timestamp(System.currentTimeMillis());
-		//film.setReleaseYear(releaseYear);
+		film.setReleaseYear(releaseYear);
 		//film.setRating(rating);
 		film.setRentalDuration(rentalDuration);
 		film.setRentalRate(4.99f);
@@ -214,5 +214,6 @@ public class FilmController {
 		}
 		
 		return "redirect:/films";
+
 	}
 }

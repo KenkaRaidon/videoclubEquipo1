@@ -63,7 +63,7 @@ function showModalFilm(){
 	var currentYear = (new Date()).getFullYear();
 
 	//Loop and add the Year values to DropDownList.
-	for (var i = 1888; i <= currentYear; i++) {
+	for (var i = 1901; i <= currentYear; i++) {
 		var option = document.createElement("option");
 		option.innerHTML = i;
 		option.value = i;
