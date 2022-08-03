@@ -4,7 +4,9 @@ import java.security.Principal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -81,6 +83,22 @@ public class CustomerController {
 		//System.out.println(cities);
         System.out.println("Hola");
         return "redirect:/";
+	}
+
+    @GetMapping(value="detallesCustomer/{customerId}")
+	@ResponseBody 
+	public Map<String, Object> cargarDetalles(@PathVariable Integer customerId){
+		Map<String, Object> response = new HashMap<>();
+		
+		Customer customer = customerService.findById(customerId).get();
+        EAddress address = customer.getAddressObject();
+        City city= address.getCity();
+		
+		response.put("customer", customer);
+        response.put("address", address);
+        response.put("city", city);
+		
+		return response;
 	}
 
     @GetMapping("filtroCiudad/{countryId}")

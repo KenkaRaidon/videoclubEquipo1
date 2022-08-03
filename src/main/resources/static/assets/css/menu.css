@@ -65,7 +65,7 @@ li.dropdown-header {
 .dropdown-menu > .dropdown-holder:nth-child(1) {
     float: left;
     width: 245px;
-    border-right: 2px solid #006b40;
+    border-right: 2px solid #109CD1;
 }
 
 .dropdown-menu.dropdown-imagen > .dropdown-holder {
@@ -86,7 +86,7 @@ li.dropdown-header {
     font-size: 20px;
     margin-top: 10px;
     font-weight: bolder;
-    color: #006b40;
+    color: #109CD1;
 }
 
 .dropdown-menu ul {
@@ -135,12 +135,12 @@ ul.sub-menu {
 .dropdown-menu.dropdown-imagen .icon {
 	display: block;
 	font-size: 64px;
-	color: #006b40;
+	color: #109CD1;
 }
 
 .dropdown-menu.dropdown-imagen .titulo {
 	font-weight: bold;
-	color: #006b40;
+	color: #109CD1;
 }
 
 .dropdown-menu.dropdown-imagen .descripcion {

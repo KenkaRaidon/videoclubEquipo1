@@ -1,5 +1,6 @@
 package uabc.videoclubs.entities;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
@@ -7,10 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedNativeQuery;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+@NamedNativeQuery(name = "getTicket", query = "select * from ticket t where t.active = true and t.customer_id = ?")
 @Entity
 @Table(name = "ticket")
 public class Ticket {
@@ -30,7 +32,7 @@ public class Ticket {
 	private Integer rentalId;
 
 	@Column(precision = 5, scale = 2, columnDefinition = "numeric(5,2)")
-	private Float amount;
+	private BigDecimal amount;
 
 	private Boolean active;
 
@@ -66,11 +68,11 @@ public class Ticket {
 		this.rentalId = rentalId;
 	}
 
-	public Float getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Float amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 
@@ -82,7 +84,7 @@ public class Ticket {
 		this.active = active;
 	}
 
-	public Ticket(Integer ticketId, Timestamp ticketDate, Integer customerId, Integer rentalId, Float amount,
+	public Ticket(Integer ticketId, Timestamp ticketDate, Integer customerId, Integer rentalId, BigDecimal amount,
 			Boolean active) {
 		this.ticketId = ticketId;
 		this.ticketDate = ticketDate;

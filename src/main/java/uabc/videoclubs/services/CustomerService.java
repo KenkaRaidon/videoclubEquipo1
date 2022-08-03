@@ -27,4 +27,12 @@ public class CustomerService implements ICustomerService{
     public Customer save(Customer customer){
         return customerRepository.save(customer);
     }
+    
+    public Customer FindMyCustomer(Integer id) {
+    	return customerRepository.findMyCustomer(id);
+    }
+    
+    public Customer UpdateActive(Integer id,Boolean activo) {
+    	return customerRepository.UpdateActive(id, activo);
+    }
 }

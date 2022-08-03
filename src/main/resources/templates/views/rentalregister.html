@@ -53,7 +53,7 @@
                                 <option th:each="city : ${cities}" th:value="${city.cityId}"
                                     th:text="${city.city}"></option>
                             </select><br>
-                            <label for="inputPhone">Telefono</label>
+                            <label for="inputPhone">Tel&eacute;fono</label>
                             <input id="inputPhone" name="inputPhone" type="text" placeholder="Escriba su telefono"
                                 class="form-control" /> <br>
                             <label for="selectStore">Sucursal</label>
@@ -64,9 +64,9 @@
                             </select><br>
                         </div>
                         <div class="modal-footer">
-                            <button id="botonCerrar2" type="button" class="btn btn-secondary"
+                            <button id="botonCerrar2" type="button" class="btn btn-cancelar"
                                 data-dismiss="modal">Cancelar</button>
-                            <button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+                            <button id="botonGuardar2" type="submit" class="btn btn-registar">Registrar</button>
                         </div>
                     </form>
         

@@ -1,9 +1,12 @@
 package uabc.videoclubs.controllers;
 
+import java.io.IOException;
 //import java.io.IOException;
 import java.security.Principal;
-import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 //import java.text.DateFormat;
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
@@ -20,7 +23,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,16 +33,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.lowagie.text.DocumentException;
+
 import uabc.videoclubs.entities.Actor;
 import uabc.videoclubs.entities.CatalogoIndex;
 import uabc.videoclubs.entities.Category;
 import uabc.videoclubs.entities.Film;
-import uabc.videoclubs.entities.FilmActor;
 import uabc.videoclubs.entities.Inventory;
 import uabc.videoclubs.entities.Language;
 import uabc.videoclubs.entities.Staff;
 import uabc.videoclubs.entities.Store;
-import uabc.videoclubs.entities.mpaa_rating;
 import uabc.videoclubs.services.ActorService;
 import uabc.videoclubs.services.CategoryService;
 import uabc.videoclubs.services.FilmService;
@@ -75,9 +77,9 @@ public class FilmController {
 	private StoreService storeService;
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = {"/","index", "films"})
+	@RequestMapping(value = {"/films", "films"})
 	public String index(Model model, HttpServletRequest request, HttpServletResponse response, Principal principal) {
-		List<CatalogoIndex> catalogo;
+		List<CatalogoIndex> catalogo; 
 		List<Language> languages=languageService.findAll();
 		List <Category> categorias = categoryService.findAll();
 		
@@ -97,29 +99,29 @@ public class FilmController {
 		return "views/films";
 	}
 	
-	@RequestMapping(value = "filtroTitulo" , method = RequestMethod.POST)
+	@RequestMapping(value = "/filtroTitulo" , method = RequestMethod.POST)
 	public String filtroTitulo(Model model, @RequestParam(name = "inputCambiar") String titulo, RedirectAttributes redirectAtt) {
 		List<CatalogoIndex> filtroTitulo = filmService.filtrarPeliculasTitulo("%"+titulo.toUpperCase()+"%");
 		redirectAtt.addFlashAttribute("catalogo",filtroTitulo);
-		return "redirect:/";
+		return "redirect:/films";
 	}
 	
-	@RequestMapping(value = "filtroCategoria" , method = RequestMethod.POST)
+	@RequestMapping(value = "/filtroCategoria" , method = RequestMethod.POST)
 	public String filtroCategoria(Model model, @RequestParam(name = "selectCategoria") Integer categoria, RedirectAttributes redirectAtt) {
 		Category category = categoryService.findById(categoria).get();
 		
 		List<CatalogoIndex> filtroCategoria = filmService.filtrarPeliculasCategoria(category.getName());
 		redirectAtt.addFlashAttribute("catalogo",filtroCategoria);
-		return "redirect:/";
+		return "redirect:/films";
 	}
 	
-	@RequestMapping(value = "filtroActor" , method = RequestMethod.POST)
+	@RequestMapping(value = "/filtroActor" , method = RequestMethod.POST)
 	public String filtroActor(Model model, @RequestParam(name = "inputCambiar") String actor, RedirectAttributes redirectAtt) {
 		if(!actor.isBlank()) {
 			List<CatalogoIndex> filtroActor = filmService.filtrarPeliculasActor("%"+actor.toUpperCase()+"%");
 			redirectAtt.addFlashAttribute("catalogo",filtroActor);
 		}
-		return "redirect:/";
+		return "redirect:/films";
 	}
 	
 	@GetMapping(value="detallesFilm/{filmId}")
@@ -138,7 +140,7 @@ public class FilmController {
 		return response;
 	}
 	
-	/*@GetMapping("detallesFilm/exportarpdf/{filmId}")
+	@GetMapping("detallesFilm/exportarpdf/{filmId}")
 	public void exportToPDF(HttpServletResponse response, HttpServletRequest request, @PathVariable Integer filmId)
 			throws DocumentException, IOException {
 		
@@ -148,19 +150,21 @@ public class FilmController {
 		
 		response.setContentType("application/pdf");
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-		String currentDateTime = dateFormatter.format(new Date());
+	    String currentDateTime = dateFormatter.format(new Date());
 		
 		String headerKey = "Content-Disposition";
 		StringBuilder sbHeaderValue = new StringBuilder("attachment; filename=film_");
 		sbHeaderValue.append(film.getFilmId() + "_");
 		sbHeaderValue.append(currentDateTime + ".pdf");
 		response.setHeader(headerKey, sbHeaderValue.toString());
+		
+		FilmPdfGeneretor exporter = new FilmPdfGeneretor();
+		exporter.generate(film, categorias, actores, response);
+		//FilmPDFExporter exporter = new FilmPDFExporter(film, categorias, actores);
+		//exporter.export(response);
 
-		FilmPDFExporter exporter = new FilmPDFExporter(film, categorias, actores);
-		exporter.export(response);
 
-
-	}*/
+	}
 	
 	@GetMapping(value="detallesInventory/{inventoryId}")
 	@ResponseBody
@@ -171,17 +175,17 @@ public class FilmController {
 	}
 
 	@PostMapping("/registerFilm")
-	public String registerCustomer(@ModelAttribute("film") Film film, @RequestParam("category[]") List<Integer> categories, @RequestParam("release_year") Integer releaseYear, @RequestParam("rating") String rating, @RequestParam("copy") Integer copy, @RequestParam("actorFirstName[]") List<String> actorsFirstName, @RequestParam("actorLastName[]") List<String> actorsLastName, Model model) {
+	public String registerCustomer(@ModelAttribute("film") Film film, @RequestParam("category[]") List<Integer> categories, @RequestParam("release_year") Integer releaseYear, @RequestParam("copy") Integer copy, @RequestParam("actorFirstName[]") List<String> actorsFirstName, @RequestParam("actorLastName[]") List<String> actorsLastName, Model model) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = ((UserDetails)principal).getUsername();
 		Staff staff=userService.findStaffByUsername(username);
 		Short rentalDuration=3;
 
 		Optional<Store> store=storeService.findStoreById(staff.getStoreId());
-		System.out.println(store);
+		System.out.println(releaseYear);
 		
 		Timestamp lastUpdate= new Timestamp(System.currentTimeMillis());
-		//film.setReleaseYear(releaseYear);
+		film.setReleaseYear(releaseYear);
 		//film.setRating(rating);
 		film.setRentalDuration(rentalDuration);
 		film.setRentalRate(4.99f);

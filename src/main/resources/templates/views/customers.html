@@ -10,14 +10,15 @@
         <div id="page-content-wrapper" style="width:100%;">
             <!-- Page content-->
             <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
-                <button class="btn btn-info" data-toggle="modal" data-target="#modalRegisterCustomer"
+                <button id="btnRegisterClient" class="btn btn-register" data-toggle="modal" data-target="#modalRegisterCustomer" data-backdrop="static" data-keyboard="false"
                     onclick="registerCustomer()">Registrar Cliente</button><br><br>
                 <table class="table table-hover" id="tabla">
                     <thead>
-                        <tr style="background-color: #239B56;">
+                        <tr style="background-color: rgb(65, 164, 211);">
                             <th class="text-white" scope="col">Id</th>
                             <th class="text-white" scope="col">Nombre</th>
                             <th class="text-white" scope="col">Email</th>
+                            <th class="text-white" scope="col">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -25,9 +26,32 @@
                             <td scope="row" th:text="${customer.customer_id}"></td>
                             <td th:text="${customer.name}"></td>
                             <td th:text="${customer.email}"></td>
+                            <td><button class="btn btn-info"
+                                    th:onclick="'javascript:detalles(\''+ ${customer.customer_id} +'\');'">
+                                    <i class="bi bi-eye"></i></button>
+                            </td>
                         </tr>
                     </tbody>
+                   
                 </table>
+                <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
             </div>
             <!-- Modal registro cliente -->
             <div class="modal fade " id="modalRegisterCustomer" tabindex="-1" aria-labelledby="modalRegisterCustomer"
@@ -43,26 +67,30 @@
                         <form id="formRegisterCustomer" th:action="@{/registerCustomer}" method="POST">
                             <div class="modal-body">
                                 <label for="inputFirstName">Nombre</label>
-                                <input id="inputFirstName" name="firstName" type="text"
-                                    placeholder="Escribe el nombre" class="form-control" th:value="${customer.firstName}" required="required"/> <br>
+                                <input id="inputFirstName" name="firstName" type="text" placeholder="Escribe el nombre"
+                                    class="form-control" th:value="${customer.firstName}" required="required" /> <br>
 
                                 <label for="inputLastName">Apellido</label>
-                                <input id="inputLastName" name="lastName" type="text"
-                                    placeholder="Escribe el apellido" class="form-control" th:value="${customer.lastName}" required="required"/> <br>
+                                <input id="inputLastName" name="lastName" type="text" placeholder="Escribe el apellido"
+                                    class="form-control" th:value="${customer.lastName}" required="required" /> <br>
 
                                 <label for="inputEmail">Email</label>
                                 <input id="inputEmail" name="email" type="email" placeholder="Escribe el email"
-                                    class="form-control" th:value="${customer.email}" required="required"/> <br>
+                                    class="form-control" th:value="${customer.email}" required="required" /> <br>
 
-                                <label for="inputAddress">Direccion</label>
-                                <input id="inputAddress" name="address" type="text"
-                                    placeholder="Escriba su direccion" class="form-control" th:value="${eaddress.address}" required="required"/> <br>
+                                <label for="inputAddress">Direcci&oacute;n</label>
+                                <input id="inputAddress" name="address" type="text" placeholder="Escriba su direccion"
+                                    class="form-control" th:value="${eaddress.address}" required="required" /> <br>
 
                                 <label for="inputDistrict">Distrito</label>
-                                <input id="inputDistrict" name="district" type="text"
-                                    placeholder="Escriba el distrito" class="form-control" th:value="${eaddress.district}" required="required"/> <br>
+                                <input id="inputDistrict" name="district" type="text" placeholder="Escriba el distrito"
+                                    class="form-control" th:value="${eaddress.district}" required="required" /> <br>
 
-                                <label for="selectCountry">Pais</label>
+                                <label for="inputPostalCode">C&oacute;digo Postal</label>
+                                <input id="inputPostalCode" name="postalCode" type="number" placeholder="Escriba el codigo postal"
+                                    class="form-control" th:value="${eaddress.postalCode}" required="required" /> <br>
+
+                                <label for="selectCountry">Pa&iacute;s</label>
                                 <select id="selectCountry" name="selectCountry" class="form-control"
                                     th:onchange="'javascript:filtrarCiudad();'" required>
                                     <option value="">Selecciona una opción</option>
@@ -77,9 +105,10 @@
                                     </option>
                                 </select><br>
 
-                                <label for="inputPhone">Telefono</label>
-                                <input id="inputPhone" name="phone" type="text" placeholder="Escriba su telefono"
-                                    class="form-control" th:value="${eaddress.phone}" required="required"/> <br>
+                                <label for="inputPhone">Tel&eacute;fono</label>
+                                <input id="inputPhone" name="phone" type="tel" placeholder="Escriba su telefono"
+                                    class="form-control" th:value="${eaddress.phone}" pattern="[0-9]{10}"
+                                    required="required" /> <br>
 
                                 <label for="selectStore">Sucursal</label>
                                 <select id="selectStore" name="storeId" class="form-control" required>
@@ -88,12 +117,104 @@
                                         th:text="${store.address}"></option>
                                 </select><br>
                             </div>
-                            <div class="modal-footer">
-                                <button id="botonCerrar2" type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">Cancelar</button>
-                                <button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+                            <div class="modal-footer row">
+                            <div class="col-xl text-rignt">
+                                <button id="botonCerrar2" type="button" class="btn btn-cancelar"
+                                    data-dismiss="modal">Cancelar</button></div>
+                            <div class="col-sl text-rignt">
+                                <button id="botonGuardar2" type="submit" class="btn btn-registrar">Registrar</button></div>
                             </div>
                         </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal detalles -->
+            <div class="modal fade " id="modalDetalles" tabindex="-1" aria-labelledby="modalDetalles"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tituloModalDetalles">Detalles</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="shadow-lg p-3 mb-5 bg-body rounded">
+                                <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 30%;">
+                                                <p class="fw-bold">Nombre:</p>
+                                            </td>
+                                            <td>
+                                                <h6 id="customerName" class=""></h6>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="width: 30%;">
+                                                <p class="fw-bold">ID de cliente:</p>
+                                            </td>
+                                            <td>
+                                                <p id="customerId" class=""></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="fw-bold">Email:</p>
+                                            </td>
+                                            <td><b>
+                                                    <p id="customerEmail" class=""></p>
+                                                </b></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="fw-bold">Direcci&oacute;n:</p>
+                                            </td>
+                                            <td>
+                                                <p id="customerAddress" class=""></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="fw-bold">C&oacute;digo Postal:</p>
+                                            </td>
+                                            <td>
+                                                <p id="customerPostalCode" class=""></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="fw-bold">N&uacute;mero Telef&oacute;nico:</p>
+                                            </td>
+                                            <td>
+                                                <p id="customerPhone" class=""></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="fw-bold">Fecha de inscripci&oacute;n:</p>
+                                            </td>
+                                            <td>
+                                                <p id="customerCreateDate" class=""></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <p class="fw-bold">Cliente Activo:</p>
+                                            </td>
+                                            <td>
+                                                <p id="customerActive" class=""></p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="botonCerrar3" type="button" class="btn btn-secondary"
+                                data-dismiss="modal">Cerrar</button>
+                        </div>
                     </div>
                 </div>
             </div>

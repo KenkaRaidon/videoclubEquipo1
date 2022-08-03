@@ -1,5 +1,6 @@
 package uabc.videoclubs.services;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,11 @@ public class RentalService implements IRentalService {
 		return rentalRepository.save(rental);
 	}
 
-	public Rental findReturnDateByInventoryId(Integer inventoryId){
-		return rentalRepository.findReturnDateByInventoryId(inventoryId);
+	public Rental findRentalByInventoryId(Integer inventoryId){
+		return rentalRepository.findRentalByInventoryId(inventoryId);
 	}
-}
+
+	public Rental ReturnFilm(Integer id,Timestamp fecha) {
+          return rentalRepository.ReturnFilm(id, fecha);
+		}
+	}

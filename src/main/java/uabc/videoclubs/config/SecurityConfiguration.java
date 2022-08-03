@@ -22,12 +22,12 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        http.authorizeRequests().antMatchers("/css/*", "/js/*", "/assets/**").permitAll()
+        http.csrf().disable().authorizeRequests().antMatchers("/css/*", "/js/*", "/assets/**", "/", "/films", "/filtroTitulo", "/filtroCategoria", "/filtroActor", "/detallesFilm/{filmId}", "/detallesFilm/exportarpdf/{filmId}").permitAll()
 		.anyRequest().authenticated()
+		.and() 
+		.formLogin().loginPage("/login").defaultSuccessUrl("/films").permitAll() 
 		.and()
-		.formLogin().loginPage("/login").defaultSuccessUrl("/index").permitAll()
-		.and()
-		.logout().permitAll();
+		.logout().logoutSuccessUrl("/films");
 		
         return http.build();
     }

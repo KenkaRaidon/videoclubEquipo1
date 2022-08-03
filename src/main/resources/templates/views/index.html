@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+    lang="es-MX">
+    
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap" rel="stylesheet">
+</head>
+<div th:replace="layout/header :: estilos"></div>
+
+<body>
+    <div th:replace="layout/header :: header"></div>
+    <div class="d-flex" id="wrapper">
+        <div th:replace="layout/header :: menu"></div>
+        <div id="page-content-wrapper" style="width:100%;">
+            <div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
+                <h2 style="font-weight: bold">Salika Videoclube</h2>
+                <img src="assets/imgs/videoclub.jpeg" alt="" srcset="">
+                <p ALIGN=JUSTIFY><b>Somos una franquicia estadounidense de videoclubes, especializada en alquiler de cine y videojuegos a
+                    través de tiendas físicas, servicios por correo y video bajo demanda. Fue fundada en 1985 por David
+                    Cook, tuvo un gran crecimiento en los años 1990, y tras ser adquirida por Viacom llegó a controlar
+                    el 25% de la cuota de mercado mundial de videoclubes. En 2004 contaba con más de 9000
+                    establecimientos a nivel mundial.</b></p>
+                <br>
+                <h3>Modelo de negocio</h3>
+                <p ALIGN=JUSTIFY><b>Desde 1987, Sakila se dedicó a absorber cadenas de videoclubes y anuló a la competencia
+                    fragmentada gracias a su mayor catálogo: mientras un videoclub tradicional podía contar con 500
+                    referencias, la multinacional exponía más de 5.000 en cada tienda. La razón es que a diferencia de
+                    los videoclubes pequeños, que pagaban una elevada cantidad por cinta (70 dólares) y después
+                    recuperaban lo invertido gracias a los alquileres, Sakila llegaba a acuerdos directos con las
+                    productoras: obtenía las películas en lote a menor coste, se quedaba con el 60% de los ingresos y
+                    aportaba el 40% restante de cada título al productor. De igual modo, Sakila exponía todo su
+                    catálogo en las estanterías mientras que la competencía solía tenerlas detrás del mostrador.</b></p>
+            </div>
+<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+        </div>
+    </div>
+    
+    <div th:replace="layout/header :: footer"></div>
+    <div th:replace="layout/header :: scripts"></div>
+    <script th:src="@{assets/js/films.js}"></script>
+</body>
+
+</html>

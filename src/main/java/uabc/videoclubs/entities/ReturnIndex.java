@@ -10,6 +10,12 @@ public class ReturnIndex {
 	private Timestamp returnDate;
 
 	private String title;
+    public Boolean rentada;
+	
+	public Boolean Cactivo;
+	
+	
+    private Customer cliente;
 
 	public ReturnIndex() {
 		super();
@@ -24,11 +30,19 @@ public class ReturnIndex {
 	public Timestamp getReturnDate() {
 		return returnDate;
 	}
+	
+	public Customer getCliente() {
+		return cliente;
+	}
 
 	public void setReturnDate(Timestamp returnDate) {
 		this.returnDate = returnDate;
 	}
 
+	
+	public void setCliente(Customer cliente) {
+		this.cliente=cliente;
+	}
 	public String getTitle() {
 		return title;
 	}

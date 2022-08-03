@@ -1,10 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	lang="es-MX">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+	<div th:replace="layout/header :: estilos"></div>
 </head>
+
 <body>
-h
+	<div th:replace="layout/header :: header"></div>
+	<div class="d-flex" id="wrapper">
+		<div th:replace="layout/header :: menu"></div>
+		<div id="page-content-wrapper" style="width:100%;">
+			<div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
+			<div class="text-center">
+				<h1 for="inputCustomerId">N&uacute;mero del Cliente</h1>
+				<input id="inputCustomerId" type="number"
+					placeholder="Introduce el numero del cliente" class="form-control text-center"  oninput="validador()"/>
+				<button id="enviar" class="btn btn-devolucion" data-toggle="modal" data-target="#modalMultas"
+					onclick="findByCustomerId()" disabled="disabled">Buscar</button>
+</div>
+				<!-- Modal -->
+				<div class="modal fade " id="modalMultas" tabindex="-1" aria-labelledby="modalMultas"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="modalMulta">Multas</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload();">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<form id="formPago" th:action="@{/pagoMulta}" method="POST">
+								<div class="modal-body">
+									<label for="inputNumeroId">N&uacute;mero del cliente</label>
+									<input id="inputNumeroId" name="customerId" type="number" class="form-control" readonly /> <br>
+
+									<label for="inputCustomerName">Nombre del cliente</label>
+									<input id="inputCustomerName" type="text" class="form-control" readonly /> <br>
+
+									<table id="tablita" class="table table-hover">
+										<thead>
+											<tr style="background-color: #23719B;">
+												<th class="text-white text-right" scope="col">N&uacute;m. de multa</th>
+												<th class="text-white text-right" scope="col">N&uacute;m. de renta</th>
+												<th class="text-white text-right" scope="col">Importe de la multa</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table><br>
+									
+									<div class="row">
+									<div class="col-sm-auto"></div>
+									<div class="col-sm">
+									<label for="inputAmount">Total a pagar</label>
+									</div>
+									<div class="col-xs-auto"></div>
+									<div class="col-sm">
+									<input id="inputAmount" name="amount" type="number" placeholder="Total a pagar"
+										class="form-control text-right" readonly />
+									</div>
+									</div>
+									
+									<div class="row">
+									<div class="col-sm-auto"></div>
+									<div class="col-sm">
+									<label for="inputTotal">Monto</label>
+									</div>
+									<div class="col-xs-auto"></div>
+									<div class="col-sm">
+									<input id="inputTotal" name="total" type="number" placeholder="Introducir monto"
+										class="form-control text-right" required="required" oninput="calcularCambio();" />
+										</div>
+									</div>
+									<div class="row">
+									<div class="col-sm-auto"></div>
+									<div class="col-sm">
+									<label for="inputCambio">Cambio</label>
+									</div>
+									<div class="col-xs-auto"></div>
+									<div class="col-sm">
+									<input id="inputCambio" name="cambio" type="number" placeholder="Cambio"
+										class="form-control text-right" readonly />
+										</div>
+									</div>
+									
+										
+								</div>
+								
+								<div class="modal-footer row">
+							
+								<div class="col-xl text-left"><button id="botonCerrar2" type="button" class="btn btn-cancelar"
+										data-dismiss="modal" >Cancelar</button> </div>
+								<div class="col-sl text-rignt"> <button id="botonGuardar2" class="btn btn-registrar" disabled="disabled" type="submit"  onclick="botonSubmit()" >Pagar</button></div>
+									
+								</div>
+								
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<div th:replace="layout/header :: footer"></div>
+	<div th:replace="layout/header :: scripts"></div>
+	<script th:src="@{assets/js/ticket.js}"></script>
 </body>
+
 </html>

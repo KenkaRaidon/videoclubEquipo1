@@ -7,7 +7,7 @@ box-sizing: border-box;
 }
 body {
 font-family: Arial;
-background-color: #006b40;
+background-color: rgb(65, 164, 211);
 padding: 50px;
 }
 .login {
@@ -45,13 +45,13 @@ transition: border .5s;
 }
 
 input:focus {
-border: 2px solid #006b40;
+border: 2px solid rgb(126, 193, 226);
 box-shadow: none;
 }
 
 .btn {
   border: 2px solid transparent;
-  background: #d19e01;
+  background: rgb(0, 64, 128);
   color: #ffffff;
   font-size: 16px;
   line-height: 25px;
@@ -67,7 +67,7 @@ box-shadow: none;
 }
 
 .btn:hover {
-  background-color: #006b40;
+  background-color: rgb(0, 128, 192);
 }
 
 .login-link {

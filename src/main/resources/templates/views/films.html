@@ -10,19 +10,21 @@
 		<div id="page-content-wrapper" style="width:100%;">
 			<!-- Page content-->
 			<div class="container-fluid" style="margin-top:15px;margin-bottom:10px;">
-				<button class="btn btn-success" data-toggle="modal" data-target="#modalRegisterFilm"
-					onclick="showModalFilm()">Registrar
-					pelicula</button>
-				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroTitulo"
-					onclick="titulo()">Filtrar por título</button>
-				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroCategoria">Filtrar por
+				<button sec:authorize="isAuthenticated()" class="btn btn-register" data-toggle="modal"
+					data-target="#modalRegisterFilm" onclick="showModalFilm()" data-backdrop="static"
+					data-keyboard="false">Registrar
+					pel&iacute;cula</button>
+				<button class="btn btn-filtrar" data-toggle="modal" data-target="#modalFiltroTitulo" onclick="titulo()"
+					data-backdrop="static" data-keyboard="false">Filtrar por título</button>
+				<button class="btn btn-filtrar" data-toggle="modal" data-target="#modalFiltroCategoria"
+					data-backdrop="static" data-keyboard="false">Filtrar por
 					categoría</button>
-				<button class="btn btn-info" data-toggle="modal" data-target="#modalFiltroTitulo"
-					onclick="actor()">Filtrar por actor</button>
+				<button class="btn btn-filtrar" data-toggle="modal" data-target="#modalFiltroTitulo" onclick="actor()"
+					data-backdrop="static" data-keyboard="false">Filtrar por actor</button>
 				<br><br>
 				<table class="table table-hover" id="tabla">
 					<thead>
-						<tr style="background-color: #239B56;">
+						<tr style="background-color: rgb(65, 164, 211);">
 							<th class="text-white" scope="col">Película</th>
 							<th class="text-white" scope="col">Categoría</th>
 							<th class="text-white" scope="col">Copias disponibles</th>
@@ -41,6 +43,24 @@
 					</tbody>
 				</table>
 			</div>
+			<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 		</div>
 
 		<!-- Modal registro de pelicula -->
@@ -49,26 +69,43 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="tituloModalCambiar">Registro de pelicula</h5>
+						<h5 class="modal-title" id="tituloModalCambiar">Registro de pel&iacute;cula</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form id="formRegisterFilm" th:action="@{/registerFilm}" method="POST">
+					<form id="formRegisterFilm" sec:authorize="isAuthenticated()" th:action="@{/registerFilm}"
+						method="POST">
 						<div class="modal-body">
-							<label for="inputTitle">Titulo</label>
-							<input id="inputTitle" name="title" type="text" placeholder="Escribe el titulo"
-								class="form-control" th:value="${film.title}" required="required"/> <br>
+							<label for="inputTitle">T&iacute;tulo</label>
+							<input id="inputTitle" name="title" type="text" placeholder="Escribe el t&iacute;tulo"
+								class="form-control" th:value="${film.title}" required="required" /> <br>
+
+							<label for="inputDescription">Descripci&oacute;n</label>
+							<textarea id="inputDescription" rows="5" cols="60" name="description" type="text"
+								placeholder="Escribe el t&iacute;tulo" class="form-control"
+								th:value="${film.description}"></textarea> <br>
 
 							<label for="selectReleaseYear">Año de Lanzamiento</label>
-							<select id="selectReleaseYear" name="release_year" class="form-control" required></select><br>
+							<select id="selectReleaseYear" name="release_year" class="form-control"
+								required></select><br>
 
-							<label for="selectCategory">Categoria</label>
-							<select id="selectCategory" multiple="multiple" name="category[]" class="form-control" required>
-								<option value="">Selecciona una categoria</option>
+							<label for="inputLength">Duraci&oacute;n</label>
+							<input id="inputLength" name="length" type="number"
+								placeholder="Introduce duraci&oacute;n de la pel&iacute;cula" class="form-control"
+								th:value="${film.length}" required="required" /> <br>
+							
+							<label for="selectCategory">Categor&iacute;a</label><br>
+							
+							<select id="selectCategory" multiple="multiple" name="category[]" class="form-control"
+								required style="width:100%"><br> 
+								
+								<option value="">Selecciona una categor&iacute;a</option>
 								<option th:each="categoria : ${categorias}" th:value="${categoria.id}"
 									th:text="${categoria.name}"></option>
 							</select><br>
+							<div class="row"></div>
+								<br>
 
 							<label for="selectLanguage">Idioma</label>
 							<select id="selectLanguage" name="language" class="form-control" required>
@@ -77,34 +114,37 @@
 									th:text="${language.name}"></option>
 							</select><br>
 
-							<label for="selectRating">Clasificacion</label>
-							<select id="selectRating" name="rating" class="form-control" required>
-								<option th:value="G">G</option>
-								<option th:value="PG">PG</option>
-								<option th:value="PG-13">PG-13</option>
-								<option th:value="R">R</option>
-								<option th:value="NC-17">NC-17</option>
-							</select><br>
-
-							<label for="inputCopy">Numero de copias</label>
+							<label for="inputCopy">N&uacute;mero de copias</label>
 							<input id="inputCopy" name="copy" type="number" placeholder="Escriba el distrito"
-								class="form-control" required="required"/> <br>
+								class="form-control" required="required" /> <br>
 
 							<label for="actorFirstName">Actores</label>
-							<div class="field_wrapper">
-								<div>
-									<input type="text" name="actorFirstName[]" placeholder="Nombre del Actor" class="form-control" required="required"/>
-									<input type="text" name="actorLastName[]" placeholder="Apellido del Actor"class="form-control" required="required"/>
-									<button id="agregarActor" class="btn btn-primary" href="javascript:void(0);"
-										title="Add field" >+</button>
+							<div id="filmsField">
+								<div class="row">
+									<div class="col-8">
+										<input type="text" name="actorFirstName[]" placeholder="Nombre del Actor"
+											class="form-control" required="required" />
+										<input type="text" name="actorLastName[]" placeholder="Apellido del Actor"
+											class="form-control" required="required" /><br>
+									</div>
+									<div class="col-sm-auto">
+										<button id="agregarActor" class="btn btn-primary" href="javascript:void(0);"
+											title="Add field">+</button>
+									</div>
+									<div class="col-sm-auto">
+										<button id="eliminarActor" class="btn btn-danger" href="javascript:void(0);"
+											title="Remove field">-</button>
+									</div>
 								</div>
 							</div>
 
 						</div>
-						<div class="modal-footer">
-							<button id="botonCerrar2" type="button" class="btn btn-secondary"
-								data-dismiss="modal">Cancelar</button>
-							<button id="botonGuardar2" type="submit" class="btn btn-success">Registrar</button>
+						<div class="modal-footer row">
+						<div class="col-xl text-rignt">
+							<button id="botonCerrar2" type="button" class="btn btn-cancelar"
+								data-dismiss="modal">Cancelar</button></div>
+						<div class="col-sl text-rignt">
+							<button id="botonGuardar2" type="submit" class="btn btn-registrar">Registrar</button></div>
 						</div>
 					</form>
 				</div>
@@ -127,9 +167,9 @@
 								class="form-control" />
 						</div>
 						<div class="modal-footer">
-							<button id="botonCerrar2" type="button" class="btn btn-secondary"
+							<button id="botonCerrar2" type="button" class="btn btn-cancelar"
 								data-dismiss="modal">Cancelar</button>
-							<button id="botonGuardar2" type="submit" class="btn btn-primary">Buscar</button>
+							<button id="botonGuardar2" type="submit" class="btn btn-devolucion">Buscar</button>
 						</div>
 					</form>
 				</div>
@@ -144,15 +184,15 @@
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
-				<form id="formMultas" th:action="@{/multas}" method="POST">
+				<form id="formMultas" sec:authorize="isAuthenticated()" th:action="@{/multas}" method="POST">
 					<div class="modal-body">
 						<input id="inputCambiar" name="inputCambiar" type="text" placeholder="Escribe el nombre"
 							class="form-control" />
 					</div>
 					<div class="modal-footer">
-						<button id="botonCerrar2" type="button" class="btn btn-secondary"
+						<button id="botonCerrar2" type="button" class="btn btn-cancelar"
 							data-dismiss="modal">Cancelar</button>
-						<button id="botonGuardar2" type="submit" class="btn btn-primary">Buscar</button>
+						<button id="botonGuardar2" type="submit" class="btn btn-devolucion">Buscar</button>
 					</div>
 				</form>
 			</div>
@@ -178,10 +218,10 @@
 							<label id="errorCategoria" class="text-danger"></label>
 						</div>
 						<div class="modal-footer">
-							<button id="botonCerrar2" type="button" class="btn btn-secondary"
+							<button id="botonCerrar2" type="button" class="btn btn-cancelar"
 								data-dismiss="modal">Cancelar</button>
 							<button id="botonGuardar2" type="button" onclick="categoria()"
-								class="btn btn-primary">Buscar</button>
+								class="btn btn-devolucion">Buscar</button>
 						</div>
 					</form>
 				</div>
@@ -244,7 +284,7 @@
 									</tr>
 									<tr>
 										<td>
-											<p class="fw-bold">Categoria:</p>
+											<p class="fw-bold">Categor&iacute;a:</p>
 										</td>
 										<td>
 											<p id="detalleCategorias" class="">Documentary</p>

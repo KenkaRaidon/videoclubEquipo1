@@ -37,9 +37,8 @@ public class Inventory {
 	@JoinColumn(name = "film_id")
 	private Film film;
 
-	@OneToOne(fetch = FetchType.LAZY)    
-	@JoinColumn(name="store_id") 
-
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	@Column(name = "last_update")
@@ -91,4 +90,5 @@ public class Inventory {
 		return "Inventory [film=" + film + ", inventoryId=" + inventoryId + ", lastUpdate=" + lastUpdate + ", store="
 				+ store + "]";
 	}
+
 }

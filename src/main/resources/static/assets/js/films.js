@@ -1,9 +1,6 @@
 $(document).ready(function () {
 
-	var maxField = 10; //Input fields increment limitation
-	var addButton = $('.add_button'); //Add button selector
-	var wrapper = $('.field_wrapper'); //Input field wrapper
-	var fieldHTML = '<br><div><input type="text" name="actorFirstName[]" placeholder="Nombre del Actor" class="form-control" required="required"/><input type="text" name="actorLastName[]" placeholder="Apellido del Actor"class="form-control" required="required"/>&nbsp<button id="eliminarActor" href="javascript:void(0);" class="btn btn-danger">-</button></div>'; //New input field html 
+	var fieldHTML = '<div class="row"><div class="col-8"><input type="text" name="actorFirstName[]" placeholder="Nombre del Actor" class="form-control" required="required" /><input type="text" name="actorLastName[]" placeholder="Apellido del Actor" class="form-control" required="required" /><br></div></div>'; //New input field html 
 	var x = 1; //Initial field counter is 1
 
 	$('#tabla').DataTable({
@@ -32,38 +29,55 @@ $(document).ready(function () {
 
 	});
 
-	 //Once add button is clicked
-	 $("#agregarActor").click(function(e){
+	$("#agregarActor").click(function (e) {
 		e.preventDefault();
-        //Check maximum number of input fields
-        if(x < maxField){ 
-            x++; //Increment field counter
-            $(wrapper).append(fieldHTML); //Add field html
-        }
-    });
-    
-    //Once remove button is clicked
-    $(wrapper).on('click', '#eliminarActor', function(e){
-        e.preventDefault();
-        $(this).parent('div').remove(); //Remove field html
-        x--; //Decrement field counter
-    });
+		if (x <= 5) {
+			$(filmsField).append(fieldHTML);
+			x++;
+		}
+	});
+
+	$("#eliminarActor").click(function (e) {
+		e.preventDefault();
+		console.log("Hola")
+		if (x > 1) {
+			filmsField.removeChild(filmsField.lastElementChild);
+			x--;
+		}
+
+	});
+
+
+	/*$("#agregarActor").click(function (e) {
+		e.preventDefault();
+		//Check maximum number of input fields
+		if (x < maxField) {
+			x++; //Increment field counter
+			$(wrapper).append(fieldHTML); //Add field html
+		}
+	});
+
+	$(wrapper).on('click', '#eliminarActor', function (e) {
+		e.preventDefault();
+		$(this).parent('div').remove(); //Remove field html
+		x--; //Decrement field counter
+	});*/
 
 	$('#selectCategory').select2({
-		placeholder:"Selecciona una categoria"
+		placeholder: "Selecciona una categoria"
 	});
 
 });
 
-function showModalFilm(){
+function showModalFilm() {
 	//Reference the DropDownList.
 	var selectReleaseYear = document.getElementById("selectReleaseYear");
- 
+
 	//Determine the Current Year.
 	var currentYear = (new Date()).getFullYear();
 
 	//Loop and add the Year values to DropDownList.
-	for (var i = 1888; i <= currentYear; i++) {
+	for (var i = 1901; i <= currentYear; i++) {
 		var option = document.createElement("option");
 		option.innerHTML = i;
 		option.value = i;

@@ -21,27 +21,27 @@ import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-@NamedNativeQuery(name = "Film.obtenerPeliculas", query = "select f.film_id , f.title , (select c.name as category  from category c, film_category fc where c.category_id=fc.category_id  and fc.film_id=f.film_id limit 1) ,  (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id)  from film f", resultSetMapping = "Mapping.CatalogoIndex")
+@NamedNativeQuery(name = "Film.obtenerPeliculas", query = "select f.film_id , f.title , (select ARRAY_AGG (c.name) categories from category c INNER JOIN film_category USING (category_id) where f.film_id =film_id GROUP by title ORDER by title) as category,  (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id)  from film f group by f.film_id", resultSetMapping = "Mapping.CatalogoIndex")
 @SqlResultSetMapping(name = "Mapping.CatalogoIndex", classes = @ConstructorResult(targetClass = CatalogoIndex.class, columns = {
 		@ColumnResult(name = "film_id", type = Integer.class),
 		@ColumnResult(name = "title", type = String.class),
 		@ColumnResult(name = "category", type = String.class),
 		@ColumnResult(name = "copies", type = Integer.class) }))
-@NamedNativeQuery(name = "Film.filtrarPeliculasTitulo", query = "select f.film_id , f.title , (select c.\"name\" as category  from category c, film_category fc where c.category_id=fc.category_id  and fc.film_id=f.film_id limit 1) ,  (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id)  from film f where UPPER(f.title) like (?)", resultSetMapping = "Mapping.FiltrarTitulo")
+@NamedNativeQuery(name = "Film.filtrarPeliculasTitulo", query = "select f.film_id , f.title , (select ARRAY_AGG (c.name) categories from category c INNER JOIN film_category USING (category_id) where f.film_id =film_id GROUP by title ORDER by title) as category,  (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id)  from film f where UPPER(f.title) like (?)", resultSetMapping = "Mapping.FiltrarTitulo")
 @SqlResultSetMapping(name = "Mapping.FiltrarTitulo", classes = @ConstructorResult(targetClass = CatalogoIndex.class, columns = {
 		@ColumnResult(name = "film_id", type = Integer.class),
 		@ColumnResult(name = "title", type = String.class),
 		@ColumnResult(name = "category", type = String.class),
 		@ColumnResult(name = "copies", type = Integer.class) }))
 
-@NamedNativeQuery(name = "Film.filtrarPeliculasCategoria", query = "select * from (select f.film_id , f.title , (select c.\"name\" from category c, film_category fc where c.category_id=fc.category_id  and fc.film_id=f.film_id limit 1) as category ,  (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id)  from film f) as catalogo where catalogo.category=?", resultSetMapping = "Mapping.FiltrarCategoria")
+@NamedNativeQuery(name = "Film.filtrarPeliculasCategoria", query = "select * from (select f.film_id , f.title , (select ARRAY_AGG (c.name) categories from category c INNER JOIN film_category USING (category_id) where f.film_id =film_id GROUP by title ORDER by title) as category ,  (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id)  from film f) as catalogo where ?=ANY(catalogo.category);", resultSetMapping = "Mapping.FiltrarCategoria")
 @SqlResultSetMapping(name = "Mapping.FiltrarCategoria", classes = @ConstructorResult(targetClass = CatalogoIndex.class, columns = {
 		@ColumnResult(name = "film_id", type = Integer.class),
 		@ColumnResult(name = "title", type = String.class),
 		@ColumnResult(name = "category", type = String.class),
 		@ColumnResult(name = "copies", type = Integer.class) }))
 
-@NamedNativeQuery(name = "Film.filtrarPeliculasActor", query = "select f.film_id, f.title, (select c.\"name\" as category  from category c, film_category fc where c.category_id=fc.category_id  and fc.film_id=f.film_id limit 1), (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id) from film f, film_actor fa, actor a where UPPER(concat(a.first_name,' ', a.last_name)) like(?) and f.film_id=fa.film_id and a.actor_id=fa.actor_id", resultSetMapping = "Mapping.FiltrarActor")
+@NamedNativeQuery(name = "Film.filtrarPeliculasActor", query = "select f.film_id, f.title, (select ARRAY_AGG (c.name) categories from category c INNER JOIN film_category USING (category_id) where f.film_id =film_id GROUP by title ORDER by title) as category, (select count(*) as copies from inventory i where i.film_id=f.film_id group by i.film_id) from film f, film_actor fa, actor a where UPPER(concat(a.first_name,' ', a.last_name)) like(?) and f.film_id=fa.film_id and a.actor_id=fa.actor_id", resultSetMapping = "Mapping.FiltrarActor")
 @SqlResultSetMapping(name = "Mapping.FiltrarActor", classes = @ConstructorResult(targetClass = CatalogoIndex.class, columns = {
 		@ColumnResult(name = "film_id", type = Integer.class),
 		@ColumnResult(name = "title", type = String.class),

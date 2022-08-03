@@ -1,5 +1,6 @@
 package uabc.videoclubs.repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,10 @@ public interface RentalRepository extends JpaRepository<Rental, Integer>{
 
 	public Optional<Rental>  findById(Integer rentalId);
 
-	@Query(value = "select * from rental r where r.inventory_id = ?1", nativeQuery = true)
-	public Rental findReturnDateByInventoryId(Integer inventoryId);
+	@Query(value = "select * from rental r where r.inventory_id = ?1 and return_date is null", nativeQuery = true)
+	public Rental findRentalByInventoryId(Integer inventoryId);
+	
+	
+	@Query(value ="update rental r set r.return_date=?2 where r.rental_id=?1 ",nativeQuery = true)
+	public Rental ReturnFilm(Integer id,Timestamp fecha);
 }
